@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="zh-TW" suppressHydrationWarning>
       <body className="min-h-full flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <NavBar />
           <main className="flex-1">{children}</main>
           <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 py-6 mt-8">
