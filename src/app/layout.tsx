@@ -29,12 +29,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-TW" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
+      <body className="min-h-full flex flex-col antialiased" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <NavBar />
           <main className="flex-1">{children}</main>
-          <footer className="bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 py-6 mt-8">
-            <div className="max-w-6xl mx-auto px-4 text-center text-sm text-gray-400 dark:text-gray-500">
+          <footer className="mt-8 py-6" style={{ borderTop: '1px solid var(--border)' }}>
+            <div className="max-w-6xl mx-auto px-4 text-center text-sm" style={{ color: 'var(--text-secondary)' }}>
               <p>SportsSquad © 2025 — 用愛發電，用技術實踐</p>
             </div>
           </footer>
