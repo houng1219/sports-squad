@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, Check, MapPin, Clock, Users, DollarSign } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { SPORT_LABELS, TAIWAN_CITIES, SKILL_LABELS, CITY_DISTRICTS, type SportType, type CreateSquadInput } from '@/lib/types'
+import { createSquad } from '@/lib/api'
 
 const SPORTS = Object.entries(SPORT_LABELS) as [SportType, string][]
 
@@ -57,11 +58,15 @@ export default function NewSquadPage() {
     if (Object.keys(e).length > 0) { setErrors(e); return }
 
     setLoading(true)
-    // Simulate API call
-    await new Promise(r => setTimeout(r, 1000))
-    // In real app, POST to Supabase
-    setLoading(false)
-    router.push('/squads')
+    try {
+      // For MVP, use a demo user ID
+      await createSquad(form, 'demo-user-id')
+      router.push('/squads')
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '發布失敗，請稍後再試'
+      setErrors({ submit: message })
+      setLoading(false)
+    }
   }
 
   const districts = CITY_DISTRICTS[form.city] || []
@@ -128,26 +133,22 @@ export default function NewSquadPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  揪團說明 <span className="text-gray-400 text-xs">(選填)</span>
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">揪團說明 <span className="text-gray-400 text-xs">(選填)</span></label>
                 <textarea
                   value={form.description}
                   onChange={e => updateField('description', e.target.value)}
-                  placeholder="補充更多細節，例如：地點特色、活動内容、是否提供器材..."
+                  placeholder="補充更多細節..."
                   rows={4}
                   className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-3">
-                  選擇球類 <span className="text-red-500">*</span>
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-3">選擇球類 <span className="text-red-500">*</span></label>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                   {SPORTS.map(([value, label]) => {
-                    const emoji = label.split(' ')[0]
-                    const text = label.split(' ')[1]
+                    const [emoji, ...rest] = label.split(' ')
+                    const text = rest.join(' ')
                     return (
                       <button
                         key={value}
@@ -160,9 +161,7 @@ export default function NewSquadPage() {
                         }`}
                       >
                         <span className="text-2xl">{emoji}</span>
-                        <span className={`text-xs font-medium ${form.sport === value ? 'text-orange-600' : 'text-gray-600'}`}>
-                          {text}
-                        </span>
+                        <span className={`text-xs font-medium ${form.sport === value ? 'text-orange-600' : 'text-gray-600'}`}>{text}</span>
                       </button>
                     )
                   })}
@@ -170,9 +169,7 @@ export default function NewSquadPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  技術程度
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">技術程度</label>
                 <div className="flex gap-2">
                   {(['beginner', 'intermediate', 'advanced', 'all'] as const).map(level => (
                     <button
@@ -212,9 +209,7 @@ export default function NewSquadPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  持續時間
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">持續時間</label>
                 <select
                   value={form.duration_minutes}
                   onChange={e => updateField('duration_minutes', parseInt(e.target.value))}
@@ -274,9 +269,7 @@ export default function NewSquadPage() {
           {step === 2 && (
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  人數上限
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">人數上限</label>
                 <div className="flex items-center gap-4">
                   <input
                     type="number"
@@ -284,20 +277,15 @@ export default function NewSquadPage() {
                     max={100}
                     value={form.max_participants}
                     onChange={e => updateField('max_participants', parseInt(e.target.value) || 2)}
-                    className={`w-24 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 text-center ${
-                      errors.max_participants ? 'border-red-400' : ''
-                    }`}
+                    className="w-24 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 text-center"
                   />
                   <span className="text-sm text-gray-500">人</span>
                 </div>
                 {errors.max_participants && <p className="text-red-500 text-xs mt-1">{errors.max_participants}</p>}
-                <p className="text-xs text-gray-400 mt-1">包含你自己，最多 {form.max_participants} 人</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  每人費用
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">每人費用</label>
                 <div className="flex items-center gap-3">
                   <input
                     type="number"
@@ -307,17 +295,12 @@ export default function NewSquadPage() {
                     className="w-28 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 text-center"
                   />
                   <span className="text-sm text-gray-500">元 / 人</span>
-                  <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                    0 = 免費活動
-                  </span>
+                  <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">0 = 免費活動</span>
                 </div>
-                {errors.price_per_person && <p className="text-red-500 text-xs mt-1">{errors.price_per_person}</p>}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  需要自備 <span className="text-gray-400 text-xs">(選填)</span>
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">需要自備 <span className="text-gray-400 text-xs">(選填)</span></label>
                 <input
                   type="text"
                   value={form.equipment}
@@ -328,13 +311,11 @@ export default function NewSquadPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  注意事項 <span className="text-gray-400 text-xs">(選填)</span>
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">注意事項 <span className="text-gray-400 text-xs">(選填)</span></label>
                 <textarea
                   value={form.notes}
                   onChange={e => updateField('notes', e.target.value)}
-                  placeholder="遲到規則、臨時取消政策、場地規定等..."
+                  placeholder="遲到規則、臨時取消政策..."
                   rows={3}
                   className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
                 />
@@ -345,13 +326,13 @@ export default function NewSquadPage() {
           {/* Step 3: Confirm */}
           {step === 3 && (
             <div className="space-y-4">
+              {errors.submit && (
+                <div className="bg-red-50 text-red-600 text-sm p-3 rounded-xl">{errors.submit}</div>
+              )}
               <div className="bg-orange-50 rounded-xl p-4">
                 <h3 className="font-semibold text-gray-900 mb-1">{form.title || '（未填標題）'}</h3>
-                <p className="text-sm text-gray-600">
-                  {SPORT_LABELS[form.sport]} · {SKILL_LABELS[form.skill_level]}
-                </p>
+                <p className="text-sm text-gray-600">{SPORT_LABELS[form.sport]} · {SKILL_LABELS[form.skill_level]}</p>
               </div>
-
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="bg-gray-50 rounded-xl p-3">
                   <p className="text-xs text-gray-500 mb-1">📅 時間</p>
@@ -376,18 +357,10 @@ export default function NewSquadPage() {
                   </p>
                 </div>
               </div>
-
               {form.description && (
                 <div className="bg-gray-50 rounded-xl p-3">
                   <p className="text-xs text-gray-500 mb-1">說明</p>
                   <p className="text-sm text-gray-700">{form.description}</p>
-                </div>
-              )}
-
-              {form.equipment && (
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <p className="text-xs text-gray-500 mb-1">需要自備</p>
-                  <p className="text-sm text-gray-700">{form.equipment}</p>
                 </div>
               )}
             </div>
@@ -405,10 +378,7 @@ export default function NewSquadPage() {
                 上一步
               </button>
             ) : (
-              <Link
-                href="/squads"
-                className="flex items-center gap-1.5 border border-gray-200 hover:bg-gray-50 text-gray-700 px-5 py-2.5 rounded-xl text-sm font-medium transition-colors"
-              >
+              <Link href="/squads" className="flex items-center gap-1.5 border border-gray-200 hover:bg-gray-50 text-gray-700 px-5 py-2.5 rounded-xl text-sm font-medium transition-colors">
                 取消
               </Link>
             )}
@@ -417,10 +387,7 @@ export default function NewSquadPage() {
               <button
                 type="button"
                 onClick={() => {
-                  if (step === 0 && !form.title.trim()) {
-                    setErrors({ title: '請填寫揪團標題' })
-                    return
-                  }
+                  if (step === 0 && !form.title.trim()) { setErrors({ title: '請填寫揪團標題' }); return }
                   setStep(s => s + 1)
                 }}
                 className="flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"

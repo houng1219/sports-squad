@@ -32,6 +32,7 @@ export interface Profile {
   skill_level?: 'beginner' | 'intermediate' | 'advanced' | 'all'
   bio?: string
   created_at: string
+  updated_at?: string
 }
 
 export interface Squad {
