@@ -79,7 +79,7 @@ export default function RecommendPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-indigo-500 text-white">
+      <div className="bg-gradient-to-r from-slate-800 to-indigo-500 text-white">
         <div className="max-w-6xl mx-auto px-4 py-10">
           <div className="flex items-center gap-2 mb-2">
             <Sparkles className="w-5 h-5" />

@@ -41,8 +41,8 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
             </div>
             <div>
               <h1 className="text-2xl font-bold">{form.full_name || '未設定'}</h1>
-              <p className="text-fuchsia-100 text-sm">{form.email}</p>
-              <p className="text-fuchsia-100 text-sm flex items-center gap-1 mt-0.5">
+              <p className="text-sky-100 text-sm">{form.email}</p>
+              <p className="text-sky-100 text-sm flex items-center gap-1 mt-0.5">
                 <MapPin className="w-3.5 h-3.5" />
                 {form.city || '未設定城市'}
               </p>
@@ -59,7 +59,7 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-semibold text-gray-900">自我介紹</h2>
               {!editing ? (
-                <button onClick={() => setEditing(true)} className="flex items-center gap-1.5 text-sm text-fuchsia-500 hover:text-fuchsia-600">
+                <button onClick={() => setEditing(true)} className="flex items-center gap-1.5 text-sm text-sky-500 hover:text-sky-600">
                   <Edit3 className="w-4 h-4" />
                   編輯
                 </button>
@@ -87,7 +87,7 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
           {/* Preferred Sports */}
           <div className="bg-white rounded-2xl border border-gray-100 p-6">
             <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Activity className="w-4.5 h-4.5 text-fuchsia-500" />
+              <Activity className="w-4.5 h-4.5 text-sky-500" />
               喜歡的球類
             </h2>
             <div className="flex flex-wrap gap-2">
@@ -103,7 +103,7 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
                     disabled={!editing}
                     className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border-2 transition-all ${
                       active
-                        ? 'border-fuchsia-500 bg-fuchsia-50 text-fuchsia-600'
+                        ? 'border-sky-500 bg-sky-50 text-sky-600'
                         : 'border-gray-100 text-gray-400 bg-gray-50'
                     } ${editing ? 'cursor-pointer' : 'cursor-default'}`}
                   >
@@ -118,7 +118,7 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
           {/* Skill Level */}
           <div className="bg-white rounded-2xl border border-gray-100 p-6">
             <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Target className="w-4.5 h-4.5 text-fuchsia-500" />
+              <Target className="w-4.5 h-4.5 text-sky-500" />
               技術程度
             </h2>
             <div className="flex gap-3">
@@ -129,7 +129,7 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
                   disabled={!editing}
                   className={`flex-1 py-3 rounded-xl text-sm font-semibold border-2 transition-all ${
                     form.skill_level === level
-                      ? 'border-fuchsia-500 bg-fuchsia-50 text-fuchsia-600'
+                      ? 'border-sky-500 bg-sky-50 text-sky-600'
                       : 'border-gray-100 text-gray-400'
                   } ${editing ? 'cursor-pointer' : 'cursor-default'}`}
                 >
@@ -142,7 +142,7 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
           {/* Contact Info */}
           <div className="bg-white rounded-2xl border border-gray-100 p-6">
             <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Phone className="w-4.5 h-4.5 text-fuchsia-500" />
+              <Phone className="w-4.5 h-4.5 text-sky-500" />
               聯絡方式
             </h2>
             <div className="space-y-3">
@@ -187,8 +187,8 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
           <div className="bg-white rounded-2xl border border-gray-100 p-6">
             <h2 className="font-semibold text-gray-900 mb-4">我的揪團統計</h2>
             <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-fuchsia-50 rounded-xl">
-                <div className="text-2xl font-bold text-fuchsia-600">0</div>
+              <div className="text-center p-4 bg-sky-50 rounded-xl">
+                <div className="text-2xl font-bold text-sky-600">0</div>
                 <div className="text-xs text-gray-500 mt-1">已參加</div>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-xl">

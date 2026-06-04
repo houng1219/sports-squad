@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 /* ================================
-   Instagram Dark Mode Colors
+   North European Cool Palette
+   Inspired by: Arctic, Slate, Ice Blue, Nordic Mist
    ================================ */
 
 @theme inline {
@@ -9,34 +10,36 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Default: Dark (IG style) */
+/* Dark mode (default): deep slate + ice blue + arctic teal */
 :root {
-  --bg: #000000;
-  --bg-secondary: #121212;
-  --bg-card: #121212;
-  --border: #262626;
-  --text: #fafafa;
-  --text-secondary: #a8a8a8;
-  --accent: #e879f9;        /* IG pink/fuchsia - same color family */
-  --accent-hover: #d946ef;
-  --accent-bg: #1a0a1f;
+  --bg: #0b1220;              /* Deep arctic slate */
+  --bg-secondary: #131c2e;     /* Slightly lighter slate */
+  --bg-card: #131c2e;          /* Card surface */
+  --border: #1f2a3e;           /* Subtle border */
+  --text: #e8eef5;             /* Ice white */
+  --text-secondary: #8a99b1;   /* Cool grey */
+  --accent: #38bdf8;           /* Sky blue (主色) */
+  --accent-hover: #0ea5e9;     /* Deeper sky */
+  --accent-secondary: #5eead4; /* Arctic teal */
+  --accent-bg: #0f2030;        /* Accent surface */
   --accent-text: #ffffff;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --error: #ef4444;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
 }
 
-/* Light mode (inverted) */
+/* Light mode: warm white + cool mist */
 .light {
-  --bg: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --bg-card: #ffffff;
-  --border: #dbdbdb;
-  --text: #060606;
-  --text-secondary: #737373;
-  --accent: #e1306c;        /* IG red-pink */
-  --accent-hover: #c0225e;
-  --accent-bg: #fff0f5;
+  --bg: #f8fafc;              /* Cool mist white */
+  --bg-secondary: #f1f5f9;     /* Slightly deeper */
+  --bg-card: #ffffff;          /* Pure white card */
+  --border: #cbd5e1;           /* Cool grey border */
+  --text: #0f172a;             /* Deep slate */
+  --text-secondary: #475569;   /* Medium slate */
+  --accent: #0284c7;           /* Nordic blue */
+  --accent-hover: #0369a1;
+  --accent-secondary: #14b8a6;
+  --accent-bg: #e0f2fe;
   --accent-text: #ffffff;
 }
 
@@ -50,71 +53,87 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #444; }
+::-webkit-scrollbar-thumb:hover { background: #2e3f5e; }
 
-/* ── Typography ── */
-.dark .text-gray-900 { color: #fafafa; }
-.dark .text-gray-800 { color: #e8e8e8; }
-.dark .text-gray-700 { color: #c8c8c8; }
-.dark .text-gray-600 { color: #a8a8a8; }
-.dark .text-gray-500 { color: #808080; }
-.dark .text-gray-400 { color: #5c5c5c; }
-.dark .text-gray-300 { color: #444; }
-.dark .text-gray-200 { color: #2a2a2a; }
-.dark .text-gray-100 { color: #1a1a1a; }
+/* ── Typography (cool greys) ── */
+.dark .text-gray-900 { color: #f1f5f9; }
+.dark .text-gray-800 { color: #e2e8f0; }
+.dark .text-gray-700 { color: #cbd5e1; }
+.dark .text-gray-600 { color: #94a3b8; }
+.dark .text-gray-500 { color: #64748b; }
+.dark .text-gray-400 { color: #475569; }
+.dark .text-gray-300 { color: #334155; }
+.dark .text-gray-200 { color: #1e293b; }
+.dark .text-gray-100 { color: #0f172a; }
 
-/* ── Backgrounds ── */
+/* ── Backgrounds (cool slate tones) ── */
 .dark .bg-white, .light .bg-white { background: var(--bg-card); }
 .dark .bg-gray-50, .light .bg-gray-50 { background: var(--bg-secondary); }
-.dark .bg-gray-100, .light .bg-gray-100 { background: #1c1c1c; }
-.dark .bg-gray-200, .light .bg-gray-200 { background: #242424; }
-.dark .bg-gray-300, .light .bg-gray-300 { background: #2e2e2e; }
-.dark .bg-gray-800, .light .bg-gray-800 { background: #1c1c1c; }
-.dark .bg-gray-900, .light .bg-gray-900 { background: #111; }
+.dark .bg-gray-100, .light .bg-gray-100 { background: #182338; }
+.dark .bg-gray-200, .light .bg-gray-200 { background: #1f2a3e; }
+.dark .bg-gray-300, .light .bg-gray-300 { background: #2a3a55; }
+.dark .bg-gray-800, .light .bg-gray-800 { background: #182338; }
+.dark .bg-gray-900, .light .bg-gray-900 { background: #131c2e; }
 .dark .bg-gray-950, .light .bg-gray-950 { background: var(--bg); }
 .dark .bg-black, .light .bg-black { background: var(--bg); }
 
 /* ── Borders ── */
-.dark .border-gray-100, .light .border-gray-100 { border-color: #262626; }
-.dark .border-gray-200, .light .border-gray-200 { border-color: #333; }
-.dark .border-gray-300, .light .border-gray-300 { border-color: #404040; }
+.dark .border-gray-100, .light .border-gray-100 { border-color: #1f2a3e; }
+.dark .border-gray-200, .light .border-gray-200 { border-color: #2a3a55; }
+.dark .border-gray-300, .light .border-gray-300 { border-color: #3a4a6b; }
 .dark .border, .light .border { border-color: var(--border); }
 
-/* ── Accent: IG Pink ── */
+/* ── Accent: Sky blue (cool) ── */
 .dark .bg-orange-50, .light .bg-orange-50 { background: var(--accent-bg); }
-.dark .bg-orange-100, .light .bg-orange-100 { background: #2a1025; }
+.dark .bg-orange-100, .light .bg-orange-100 { background: #142640; }
 .dark .bg-orange-500, .light .bg-orange-500 { background: var(--accent); }
 .dark .bg-orange-600, .light .bg-orange-600 { background: var(--accent-hover); }
 
-.dark .text-orange-400, .light .text-orange-400 { color: #f0abfc; }
+.dark .text-orange-400, .light .text-orange-400 { color: #7dd3fc; }
 .dark .text-orange-500, .light .text-orange-500 { color: var(--accent); }
-.dark .text-orange-600, .light .text-orange-600 { color: #e879f9; }
-.dark .text-orange-700, .light .text-orange-700 { color: #d946ef; }
-.dark .hover\:bg-orange-50:hover, .light .hover\:bg-orange-50:hover { background: #2a1025; }
-.dark .hover\:bg-orange-100:hover, .light .hover\:bg-orange-100:hover { background: #350e30; }
+.dark .text-orange-600, .light .text-orange-600 { color: #38bdf8; }
+.dark .text-orange-700, .light .text-orange-700 { color: #0ea5e9; }
+.dark .hover\:bg-orange-50:hover, .light .hover\:bg-orange-50:hover { background: #142640; }
+.dark .hover\:bg-orange-100:hover, .light .hover\:bg-orange-100:hover { background: #1a2d4d; }
 .dark .hover\:bg-orange-600:hover, .light .hover\:bg-orange-600:hover { background: var(--accent-hover); }
-.dark .hover\:border-orange-200:hover, .light .hover\:border-orange-200:hover { border-color: #581c3f; }
-.dark .border-orange-200, .light .border-orange-200 { border-color: #3d1230; }
+.dark .hover\:border-orange-200:hover, .light .hover\:border-orange-200:hover { border-color: #1e3a5f; }
+.dark .border-orange-200, .light .border-orange-200 { border-color: #142640; }
 .dark .border-orange-500, .light .border-orange-500 { border-color: var(--accent); }
 .dark .border-orange-600, .light .border-orange-600 { border-color: var(--accent-hover); }
 
-/* ── Status colors ── */
-.dark .text-green-600, .light .text-green-600 { color: var(--success); }
-.dark .text-red-500, .light .text-red-500 { color: var(--error); }
-.dark .text-red-600, .light .text-red-600 { color: #dc2626; }
-.dark .text-yellow-500, .light .text-yellow-500 { color: var(--warning); }
+/* ── Fuchsia (left over from IG refactor) → sky cool ── */
+.dark .bg-fuchsia-50, .light .bg-fuchsia-50 { background: var(--accent-bg); }
+.dark .bg-fuchsia-100, .light .bg-fuchsia-100 { background: #142640; }
+.dark .bg-fuchsia-500, .light .bg-fuchsia-500 { background: var(--accent); }
+.dark .bg-fuchsia-600, .light .bg-fuchsia-600 { background: var(--accent-hover); }
+.dark .text-fuchsia-400, .light .text-fuchsia-400 { color: #7dd3fc; }
+.dark .text-fuchsia-500, .light .text-fuchsia-500 { color: var(--accent); }
+.dark .text-fuchsia-600, .light .text-fuchsia-600 { color: #38bdf8; }
+.dark .text-fuchsia-100, .light .text-fuchsia-100 { color: #e0f2fe; }
+.dark .text-fuchsia-700, .light .text-fuchsia-700 { color: #0ea5e9; }
+.dark .border-fuchsia-500, .light .border-fuchsia-500 { border-color: var(--accent); }
+.dark .border-fuchsia-200, .light .border-fuchsia-200 { border-color: #142640; }
+.dark .hover\:bg-fuchsia-50:hover, .light .hover\:bg-fuchsia-50:hover { background: #142640; }
+.dark .hover\:bg-fuchsia-100:hover, .light .hover\:bg-fuchsia-100:hover { background: #1a2d4d; }
+.dark .hover\:border-fuchsia-200:hover, .light .hover\:border-fuchsia-200:hover { border-color: #1e3a5f; }
+
+/* ── Status colors (cool) ── */
+.dark .text-green-600, .light .text-green-600 { color: #34d399; }
+.dark .text-red-500, .light .text-red-500 { color: #f87171; }
+.dark .text-red-600, .light .text-red-600 { color: #ef4444; }
+.dark .text-yellow-500, .light .text-yellow-500 { color: #fbbf24; }
 .dark .text-blue-600, .light .text-blue-600 { color: #60a5fa; }
 
 /* ── Hover states ── */
-.dark .hover\:bg-gray-50:hover, .light .hover\:bg-gray-50:hover { background: #1c1c1c; }
-.dark .hover\:bg-gray-100:hover, .light .hover\:bg-gray-100:hover { background: #242424; }
-.dark .hover\:bg-gray-200:hover, .light .hover\:bg-gray-200:hover { background: #2e2e2e; }
-.dark .hover\:border-gray-200:hover, .light .hover\:border-gray-200:hover { border-color: #333; }
+.dark .hover\:bg-gray-50:hover, .light .hover\:bg-gray-50:hover { background: #182338; }
+.dark .hover\:bg-gray-100:hover, .light .hover\:bg-gray-100:hover { background: #1f2a3e; }
+.dark .hover\:bg-gray-200:hover, .light .hover\:bg-gray-200:hover { background: #2a3a55; }
+.dark .hover\:border-gray-200:hover, .light .hover\:border-gray-200:hover { border-color: #2a3a55; }
 
-/* ── Shadows ── */
-.dark .shadow-lg, .light .shadow-lg { box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
-.dark .shadow-md, .light .shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-.dark .hover\:shadow-lg:hover, .light .hover\:shadow-lg:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
+/* ── Shadows (cool tinted) ── */
+.dark .shadow-lg, .light .shadow-lg { box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12); }
+.dark .shadow-md, .light .shadow-md { box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); }
+.dark .hover\:shadow-lg:hover, .light .hover\:shadow-lg:hover { box-shadow: 0 8px 24px rgba(2, 132, 199, 0.18); }
 
 /* ── Inputs ── */
 .dark input, .dark textarea, .dark select,
@@ -124,37 +143,37 @@ body {
   border-color: var(--border);
 }
 .dark input::placeholder, .dark textarea::placeholder, .light input::placeholder {
-  color: #555;
+  color: #475569;
 }
 .dark input:focus, .dark textarea:focus, .dark select:focus,
 .light input:focus, .light textarea:focus, .light select:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(232,121,249,0.2);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
   outline: none;
 }
 
-/* ── Gradients ── */
-.dark .bg-gradient-to-br, .light .bg-gradient-to-br { filter: brightness(0.7) saturate(1.2); }
-.dark .bg-gradient-to-r, .light .bg-gradient-to-r { filter: brightness(0.7) saturate(1.2); }
-.dark .from-orange-400, .light .from-orange-400 { --tw-gradient-from: #e879f9; }
-.dark .to-orange-500, .light .to-orange-500 { --tw-gradient-to: #d946ef; }
+/* ── Gradients (cool sky → teal) ── */
+.dark .bg-gradient-to-br, .light .bg-gradient-to-br { filter: brightness(0.85) saturate(1.1); }
+.dark .bg-gradient-to-r, .light .bg-gradient-to-r { filter: brightness(0.85) saturate(1.1); }
+.dark .from-orange-400, .light .from-orange-400 { --tw-gradient-from: #38bdf8; }
+.dark .to-orange-500, .light .to-orange-500 { --tw-gradient-to: #5eead4; }
 
-/* ── IG-style hover cards ── */
+/* ── Card hover ── */
 .dark .hover\:border-gray-100:hover, .light .hover\:border-gray-100:hover { border-color: var(--border); }
 
 /* ── Footer ── */
 .dark footer.bg-white, .light footer.bg-white { background: var(--bg); }
-.dark footer.border-t, .light footer.border-t { border-color: #262626; }
-.dark footer.text-gray-400, .light footer.text-gray-400 { color: #555; }
+.dark footer.border-t, .light footer.border-t { border-color: #1f2a3e; }
+.dark footer.text-gray-400, .light footer.text-gray-400 { color: #475569; }
 
-/* ── Nav sticky ── */
-.dark nav, .light nav { background: rgba(0,0,0,0.9); backdrop-filter: blur(16px); }
+/* ── Nav sticky (cool dark) ── */
+.dark nav, .light nav { background: rgba(11, 18, 32, 0.92); backdrop-filter: blur(16px); border-color: #1f2a3e; }
 
 /* ── Light mode overrides ── */
-.light .text-gray-600 { color: #525252; }
-.light .text-gray-500 { color: #737373; }
-.light .text-gray-400 { color: #a1a1a1; }
-.light .hover\:bg-gray-50:hover { background: #f5f5f5; }
-.light .hover\:bg-gray-100:hover { background: #efefef; }
-.light .shadow-lg { box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-.light .shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.light .text-gray-600 { color: #475569; }
+.light .text-gray-500 { color: #64748b; }
+.light .text-gray-400 { color: #94a3b8; }
+.light .hover\:bg-gray-50:hover { background: #f1f5f9; }
+.light .hover\:bg-gray-100:hover { background: #e2e8f0; }
+.light .shadow-lg { box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08); }
+.light .shadow-md { box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05); }

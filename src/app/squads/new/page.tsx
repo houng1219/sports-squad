@@ -94,15 +94,15 @@ export default function NewSquadPage() {
           {STEPS.map((s, i) => (
             <div key={i} className="flex items-center gap-2" onClick={() => i < step && setStep(i)}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                i < step ? 'bg-fuchsia-500 text-white' : i === step ? 'bg-fuchsia-500 text-white' : 'bg-gray-100 text-gray-400'
+                i < step ? 'bg-sky-500 text-white' : i === step ? 'bg-sky-500 text-white' : 'bg-gray-100 text-gray-400'
               }`}>
                 {i < step ? <Check className="w-4 h-4" /> : s.icon}
               </div>
-              <span className={`text-xs hidden sm:block ${i === step ? 'text-fuchsia-600 font-medium' : 'text-gray-400'}`}>
+              <span className={`text-xs hidden sm:block ${i === step ? 'text-sky-600 font-medium' : 'text-gray-400'}`}>
                 {s.label}
               </span>
               {i < STEPS.length - 1 && (
-                <div className={`flex-1 h-0.5 w-8 sm:w-12 mx-1 rounded ${i < step ? 'bg-fuchsia-400' : 'bg-gray-200'}`} />
+                <div className={`flex-1 h-0.5 w-8 sm:w-12 mx-1 rounded ${i < step ? 'bg-sky-400' : 'bg-gray-200'}`} />
               )}
             </div>
           ))}
@@ -156,12 +156,12 @@ export default function NewSquadPage() {
                         onClick={() => updateField('sport', value)}
                         className={`flex flex-col items-center gap-1.5 p-4 rounded-xl border-2 transition-all ${
                           form.sport === value
-                            ? 'border-fuchsia-500 bg-fuchsia-50'
+                            ? 'border-sky-500 bg-sky-50'
                             : 'border-gray-100 hover:border-gray-200'
                         }`}
                       >
                         <span className="text-2xl">{emoji}</span>
-                        <span className={`text-xs font-medium ${form.sport === value ? 'text-fuchsia-600' : 'text-gray-600'}`}>{text}</span>
+                        <span className={`text-xs font-medium ${form.sport === value ? 'text-sky-600' : 'text-gray-600'}`}>{text}</span>
                       </button>
                     )
                   })}
@@ -178,7 +178,7 @@ export default function NewSquadPage() {
                       onClick={() => updateField('skill_level', level)}
                       className={`flex-1 py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
                         form.skill_level === level
-                          ? 'border-fuchsia-500 bg-fuchsia-50 text-fuchsia-600'
+                          ? 'border-sky-500 bg-sky-50 text-sky-600'
                           : 'border-gray-100 text-gray-500 hover:border-gray-200'
                       }`}
                     >
@@ -329,7 +329,7 @@ export default function NewSquadPage() {
               {errors.submit && (
                 <div className="bg-red-50 text-red-600 text-sm p-3 rounded-xl">{errors.submit}</div>
               )}
-              <div className="bg-fuchsia-50 rounded-xl p-4">
+              <div className="bg-sky-50 rounded-xl p-4">
                 <h3 className="font-semibold text-gray-900 mb-1">{form.title || '（未填標題）'}</h3>
                 <p className="text-sm text-gray-600">{SPORT_LABELS[form.sport]} · {SKILL_LABELS[form.skill_level]}</p>
               </div>
@@ -390,7 +390,7 @@ export default function NewSquadPage() {
                   if (step === 0 && !form.title.trim()) { setErrors({ title: '請填寫揪團標題' }); return }
                   setStep(s => s + 1)
                 }}
-                className="flex items-center gap-1.5 bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                className="flex items-center gap-1.5 bg-sky-500 hover:bg-sky-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
               >
                 下一步
                 <ArrowRight className="w-4 h-4" />
@@ -400,7 +400,7 @@ export default function NewSquadPage() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading}
-                className="flex items-center gap-1.5 bg-fuchsia-500 hover:bg-fuchsia-600 disabled:bg-orange-300 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                className="flex items-center gap-1.5 bg-sky-500 hover:bg-sky-600 disabled:bg-orange-300 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
               >
                 {loading ? '發布中...' : '確認發布'}
                 {!loading && <Check className="w-4 h-4" />}

@@ -27,7 +27,7 @@ export default async function SquadDetailPage({ params }: { params: Promise<{ id
       {/* Back Button */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <a href="/squads" className="inline-flex items-center gap-1.5 text-gray-600 hover:text-fuchsia-500 text-sm transition-colors">
+          <a href="/squads" className="inline-flex items-center gap-1.5 text-gray-600 hover:text-sky-500 text-sm transition-colors">
             <ArrowLeft className="w-4 h-4" />
             返回揪團列表
           </a>
@@ -47,7 +47,7 @@ export default async function SquadDetailPage({ params }: { params: Promise<{ id
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold mb-2">{squad.title}</h1>
-          <div className="flex items-center gap-4 text-fuchsia-100 text-sm">
+          <div className="flex items-center gap-4 text-sky-100 text-sm">
             <span>主辦：{squad.organizer?.full_name || '匿名'}</span>
             <span>·</span>
             <span>發布於 {format(new Date(squad.created_at), 'M/dd HH:mm', { locale: zhTW })}</span>
@@ -65,8 +65,8 @@ export default async function SquadDetailPage({ params }: { params: Promise<{ id
               <h2 className="font-semibold text-gray-900 mb-4">揪團資訊</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-fuchsia-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Calendar className="w-4.5 h-4.5 text-fuchsia-500" />
+                  <div className="w-9 h-9 bg-sky-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-4.5 h-4.5 text-sky-500" />
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-0.5">時間</p>
@@ -80,8 +80,8 @@ export default async function SquadDetailPage({ params }: { params: Promise<{ id
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-fuchsia-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-4.5 h-4.5 text-fuchsia-500" />
+                  <div className="w-9 h-9 bg-sky-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-4.5 h-4.5 text-sky-500" />
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-0.5">地點</p>
@@ -91,8 +91,8 @@ export default async function SquadDetailPage({ params }: { params: Promise<{ id
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-fuchsia-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Users className="w-4.5 h-4.5 text-fuchsia-500" />
+                  <div className="w-9 h-9 bg-sky-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Users className="w-4.5 h-4.5 text-sky-500" />
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-0.5">人數</p>
@@ -106,8 +106,8 @@ export default async function SquadDetailPage({ params }: { params: Promise<{ id
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-fuchsia-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <DollarSign className="w-4.5 h-4.5 text-fuchsia-500" />
+                  <div className="w-9 h-9 bg-sky-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <DollarSign className="w-4.5 h-4.5 text-sky-500" />
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 mb-0.5">費用</p>
@@ -195,8 +195,8 @@ export default async function SquadDetailPage({ params }: { params: Promise<{ id
                 <div className="space-y-3">
                   {participants.map((p) => (
                     <div key={p.id} className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-fuchsia-100 rounded-full flex items-center justify-center">
-                        <User className="w-4 h-4 text-fuchsia-500" />
+                      <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center">
+                        <User className="w-4 h-4 text-sky-500" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-gray-900 text-sm truncate">

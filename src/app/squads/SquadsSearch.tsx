@@ -102,7 +102,7 @@ export default function SquadsSearch({
           <div className="flex items-center justify-between mb-3">
             <button
               onClick={goBack}
-              className="flex items-center gap-1 text-sm text-gray-500 hover:text-fuchsia-500 transition-colors"
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-sky-500 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               返回
@@ -118,9 +118,9 @@ export default function SquadsSearch({
                 <div
                   className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold transition-all ${
                     currentStep > step.num
-                      ? 'bg-fuchsia-500 text-white'
+                      ? 'bg-sky-500 text-white'
                       : currentStep === step.num
-                      ? 'bg-fuchsia-500 text-white'
+                      ? 'bg-sky-500 text-white'
                       : 'bg-gray-100 text-gray-400'
                   }`}
                 >
@@ -128,7 +128,7 @@ export default function SquadsSearch({
                 </div>
                 <span
                   className={`text-xs ml-1 hidden sm:block ${
-                    currentStep >= step.num ? 'text-fuchsia-600 font-medium' : 'text-gray-400'
+                    currentStep >= step.num ? 'text-sky-600 font-medium' : 'text-gray-400'
                   }`}
                 >
                   {step.label}
@@ -136,7 +136,7 @@ export default function SquadsSearch({
                 {i < steps.length - 1 && (
                   <div
                     className={`flex-1 h-0.5 mx-2 rounded ${
-                      currentStep > step.num ? 'bg-fuchsia-400' : 'bg-gray-200'
+                      currentStep > step.num ? 'bg-sky-400' : 'bg-gray-200'
                     }`}
                   />
                 )}
@@ -171,14 +171,14 @@ export default function SquadsSearch({
                   onMouseLeave={() => setHoveredItem(null)}
                   className={`flex flex-col items-center gap-2 p-5 rounded-2xl border-2 transition-all ${
                     selectedCity === city
-                      ? 'border-fuchsia-500 bg-fuchsia-50'
+                      ? 'border-sky-500 bg-sky-50'
                       : hoveredItem === city
-                      ? 'border-fuchsia-200 bg-fuchsia-50/50'
+                      ? 'border-sky-200 bg-sky-50/50'
                       : 'border-gray-100 hover:border-gray-200 bg-white'
                   }`}
                 >
-                  <MapPin className={`w-6 h-6 ${selectedCity === city ? 'text-fuchsia-500' : 'text-gray-400'}`} />
-                  <span className={`text-sm font-medium ${selectedCity === city ? 'text-fuchsia-600' : 'text-gray-700'}`}>
+                  <MapPin className={`w-6 h-6 ${selectedCity === city ? 'text-sky-500' : 'text-gray-400'}`} />
+                  <span className={`text-sm font-medium ${selectedCity === city ? 'text-sky-600' : 'text-gray-700'}`}>
                     {city}
                   </span>
                 </button>
@@ -202,14 +202,14 @@ export default function SquadsSearch({
                   onMouseLeave={() => setHoveredItem(null)}
                   className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${
                     selectedDistrict === district
-                      ? 'border-fuchsia-500 bg-fuchsia-50'
+                      ? 'border-sky-500 bg-sky-50'
                       : hoveredItem === district
-                      ? 'border-fuchsia-200 bg-fuchsia-50/50'
+                      ? 'border-sky-200 bg-sky-50/50'
                       : 'border-gray-100 hover:border-gray-200 bg-white'
                   }`}
                 >
                   <span className="text-2xl">🏘️</span>
-                  <span className={`text-xs font-medium ${selectedDistrict === district ? 'text-fuchsia-600' : 'text-gray-700'}`}>
+                  <span className={`text-xs font-medium ${selectedDistrict === district ? 'text-sky-600' : 'text-gray-700'}`}>
                     {district}
                   </span>
                 </button>
@@ -236,14 +236,14 @@ export default function SquadsSearch({
                     onMouseLeave={() => setHoveredItem(null)}
                     className={`flex items-center gap-3 p-5 rounded-2xl border-2 transition-all ${
                       selectedSport === value
-                        ? 'border-fuchsia-500 bg-fuchsia-50'
+                        ? 'border-sky-500 bg-sky-50'
                         : hoveredItem === value
-                        ? 'border-fuchsia-200 bg-fuchsia-50/50'
+                        ? 'border-sky-200 bg-sky-50/50'
                         : 'border-gray-100 hover:border-gray-200 bg-white'
                     }`}
                   >
                     <span className="text-3xl">{emoji}</span>
-                    <span className={`font-semibold ${selectedSport === value ? 'text-fuchsia-600' : 'text-gray-800'}`}>
+                    <span className={`font-semibold ${selectedSport === value ? 'text-sky-600' : 'text-gray-800'}`}>
                       {text}
                     </span>
                   </button>
@@ -258,11 +258,11 @@ export default function SquadsSearch({
           <div className="space-y-4">
             {/* Selected filters summary */}
             <div className="flex flex-wrap items-center gap-2 text-sm">
-              <span className="bg-fuchsia-100 text-fuchsia-700 px-3 py-1 rounded-full font-medium">{selectedCity}</span>
+              <span className="bg-sky-100 text-sky-700 px-3 py-1 rounded-full font-medium">{selectedCity}</span>
               <ArrowRight className="w-4 h-4 text-gray-400" />
-              <span className="bg-fuchsia-100 text-fuchsia-700 px-3 py-1 rounded-full font-medium">{selectedDistrict}</span>
+              <span className="bg-sky-100 text-sky-700 px-3 py-1 rounded-full font-medium">{selectedDistrict}</span>
               <ArrowRight className="w-4 h-4 text-gray-400" />
-              <span className="bg-fuchsia-100 text-fuchsia-700 px-3 py-1 rounded-full font-medium">
+              <span className="bg-sky-100 text-sky-700 px-3 py-1 rounded-full font-medium">
                 {SPORT_LABELS[selectedSport as SportType]}
               </span>
               <span className="ml-auto text-sm text-gray-500">共 {squads.length} 個揪團</span>
@@ -276,7 +276,7 @@ export default function SquadsSearch({
                   p.set('step', '1')
                   router.push('/squads?' + p.toString())
                 }}
-                className="text-xs text-gray-500 hover:text-fuchsia-500 underline"
+                className="text-xs text-gray-500 hover:text-sky-500 underline"
               >
                 重新選擇
               </button>
@@ -292,7 +292,7 @@ export default function SquadsSearch({
                 </p>
                 <Link
                   href="/squads/new"
-                  className="inline-flex items-center gap-1.5 bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                 >
                   成為第一個發起的人
                 </Link>
@@ -310,7 +310,7 @@ export default function SquadsSearch({
                     <Link
                       key={squad.id}
                       href={`/squads/${squad.id}`}
-                      className="block bg-white rounded-2xl border border-gray-100 hover:border-fuchsia-200 hover:shadow-md transition-all overflow-hidden"
+                      className="block bg-white rounded-2xl border border-gray-100 hover:border-sky-200 hover:shadow-md transition-all overflow-hidden"
                     >
                       <div className="flex">
                         {/* Left color bar */}
