@@ -23,7 +23,7 @@ export default function NavBar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-orange-500 rounded-xl flex items-center justify-center">
+            <div className="w-9 h-9 bg-fuchsia-500 rounded-xl flex items-center justify-center">
               <Trophy className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-lg text-gray-900 dark:text-white">SportsSquad</span>
@@ -37,7 +37,7 @@ export default function NavBar() {
                 href={link.href}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   pathname === link.href
-                    ? 'bg-orange-50 dark:bg-orange-950 text-orange-600 dark:text-orange-400'
+                    ? 'bg-fuchsia-50 dark:bg-orange-950 text-fuchsia-600 dark:text-fuchsia-400'
                     : 'text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800'
                 }`}
               >
@@ -63,7 +63,7 @@ export default function NavBar() {
 
             <Link
               href="/squads/new"
-              className="flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-1.5 bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               <Plus className="w-4 h-4" />
               發起揪團
@@ -95,7 +95,7 @@ export default function NavBar() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={`block px-4 py-3 text-sm font-medium ${
-                  pathname === link.href ? 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950' : 'text-gray-700 dark:text-zinc-300'
+                  pathname === link.href ? 'text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-50 dark:bg-orange-950' : 'text-gray-700 dark:text-zinc-300'
                 }`}
               >
                 {link.label}
@@ -112,7 +112,7 @@ export default function NavBar() {
               <Link
                 href="/squads/new"
                 onClick={() => setMobileOpen(false)}
-                className="flex-1 bg-orange-500 text-white text-center py-2.5 rounded-lg text-sm font-medium"
+                className="flex-1 bg-fuchsia-500 text-white text-center py-2.5 rounded-lg text-sm font-medium"
               >
                 發起揪團
               </Link>

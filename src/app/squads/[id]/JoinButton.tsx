@@ -49,7 +49,7 @@ export default function JoinButton({
   if (isOrganizer) {
     return (
       <div className="space-y-2">
-        <div className="bg-orange-50 text-orange-600 text-center py-3 rounded-xl text-sm font-medium">
+        <div className="bg-fuchsia-50 text-fuchsia-600 text-center py-3 rounded-xl text-sm font-medium">
           這是你發起的揪團
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function JoinButton({
       <button
         onClick={handleJoin}
         disabled={loading}
-        className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white py-3 rounded-xl text-sm font-semibold transition-colors"
+        className="w-full bg-fuchsia-500 hover:bg-fuchsia-600 disabled:bg-orange-300 text-white py-3 rounded-xl text-sm font-semibold transition-colors"
       >
         {loading ? '報名中...' : '報名參加'}
       </button>

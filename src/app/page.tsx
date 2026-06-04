@@ -18,14 +18,14 @@ function SquadCardHome({ squad }: { squad: ReturnType<typeof getAllSquadCards>[0
   const isFree = squad.price_per_person === 0
 
   return (
-    <Link href={`/squads/${squad.id}`} className="group block bg-white rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-200 overflow-hidden">
+    <Link href={`/squads/${squad.id}`} className="group block bg-white rounded-2xl border border-gray-100 hover:border-fuchsia-200 hover:shadow-lg transition-all duration-200 overflow-hidden">
       {/* Header with sport color */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-400 p-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-fuchsia-500 to-pink-400 p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="text-2xl">{sportEmoji}</span>
           <div>
             <span className="text-white font-semibold">{sportText}</span>
-            <span className="text-orange-100 text-xs ml-2">揪團</span>
+            <span className="text-fuchsia-100 text-xs ml-2">揪團</span>
           </div>
         </div>
         <div className="flex items-center gap-1 bg-white/20 rounded-full px-3 py-1">
@@ -38,7 +38,7 @@ function SquadCardHome({ squad }: { squad: ReturnType<typeof getAllSquadCards>[0
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-fuchsia-600 transition-colors">
           {squad.title}
         </h3>
 
@@ -71,8 +71,8 @@ function SquadCardHome({ squad }: { squad: ReturnType<typeof getAllSquadCards>[0
 function StatCard({ icon: Icon, value, label }: { icon: any; value: string; label: string }) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center">
-      <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-        <Icon className="w-6 h-6 text-orange-500" />
+      <div className="w-12 h-12 bg-fuchsia-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+        <Icon className="w-6 h-6 text-fuchsia-500" />
       </div>
       <div className="text-2xl font-bold text-gray-900">{value}</div>
       <div className="text-sm text-gray-500 mt-1">{label}</div>
@@ -86,27 +86,27 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-orange-500 via-orange-400 to-orange-300 text-white">
+      <section className="bg-gradient-to-br from-fuchsia-500 via-fuchsia-400 to-pink-300 text-white">
         <div className="max-w-6xl mx-auto px-4 py-16 md:py-24">
           <div className="max-w-2xl">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               找到運動夥伴
               <br />一起流的汗最好玩
             </h1>
-            <p className="text-orange-100 text-lg md:text-xl mb-8">
+            <p className="text-fuchsia-100 text-lg md:text-xl mb-8">
               瀏覽或發起揪團，根據你的地點與喜好，AI 智能推薦適合的運動社群
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href="/squads"
-                className="flex items-center justify-center gap-2 bg-white text-orange-600 px-6 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-colors"
+                className="flex items-center justify-center gap-2 bg-white text-fuchsia-600 px-6 py-3 rounded-xl font-semibold hover:bg-fuchsia-50 transition-colors"
               >
                 瀏覽揪團
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/squads/new"
-                className="flex items-center justify-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold border border-orange-400 hover:bg-orange-500 transition-colors"
+                className="flex items-center justify-center gap-2 bg-fuchsia-600 text-white px-6 py-3 rounded-xl font-semibold border border-fuchsia-400 hover:bg-fuchsia-500 transition-colors"
               >
                 發起揪團
               </Link>
@@ -130,7 +130,7 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-4 mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-gray-900">探索球類</h2>
-          <Link href="/squads" className="text-sm text-orange-500 hover:text-orange-600 font-medium">
+          <Link href="/squads" className="text-sm text-fuchsia-500 hover:text-fuchsia-600 font-medium">
             看全部 →
           </Link>
         </div>
@@ -143,7 +143,7 @@ export default function HomePage() {
               <Link
                 key={sport}
                 href={`/squads?sport=${sport}`}
-                className="flex items-center gap-2 bg-white border border-gray-100 hover:border-orange-200 hover:shadow-md rounded-xl px-4 py-3 whitespace-nowrap transition-all"
+                className="flex items-center gap-2 bg-white border border-gray-100 hover:border-fuchsia-200 hover:shadow-md rounded-xl px-4 py-3 whitespace-nowrap transition-all"
               >
                 <span className="text-xl">{emoji}</span>
                 <span className="font-medium text-gray-700 text-sm">{text}</span>
@@ -157,7 +157,7 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-4 mb-10">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-gray-900">最新揪團</h2>
-          <Link href="/squads" className="text-sm text-orange-500 hover:text-orange-600 font-medium">
+          <Link href="/squads" className="text-sm text-fuchsia-500 hover:text-fuchsia-600 font-medium">
             看全部 →
           </Link>
         </div>
@@ -175,7 +175,7 @@ export default function HomePage() {
           <p className="text-gray-400 mb-6">設定地點、時間、人數，3分鐘完成發團</p>
           <Link
             href="/squads/new"
-            className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-fuchsia-500 hover:bg-fuchsia-400 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
           >
             發起揪團
             <ArrowRight className="w-4 h-4" />

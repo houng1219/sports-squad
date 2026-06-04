@@ -17,9 +17,9 @@ function SquadCardComponent({ squad }: { squad: SquadCard }) {
   const isFull = squad.participant_count >= squad.max_participants
 
   return (
-    <Link href={`/squads/${squad.id}`} className="group block bg-white rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-lg transition-all duration-200 overflow-hidden">
+    <Link href={`/squads/${squad.id}`} className="group block bg-white rounded-2xl border border-gray-100 hover:border-fuchsia-200 hover:shadow-lg transition-all duration-200 overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-400 p-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-fuchsia-500 to-pink-400 p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="text-2xl">{emoji}</span>
           <span className="text-white font-semibold">{sportText}</span>
@@ -40,7 +40,7 @@ function SquadCardComponent({ squad }: { squad: SquadCard }) {
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-fuchsia-600 transition-colors">
           {squad.title}
         </h3>
         <p className="text-sm text-gray-500 line-clamp-2 mb-3">{squad.description || ''}</p>
@@ -166,7 +166,7 @@ export default function SquadsList({ initialSquads }: { initialSquads: SquadCard
 
             <button
               onClick={applyFilters}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               搜尋
             </button>
@@ -183,7 +183,7 @@ export default function SquadsList({ initialSquads }: { initialSquads: SquadCard
             <p className="text-gray-400 text-sm">嘗試調整篩選條件，或許可以自己發起一個？</p>
             <Link
               href="/squads/new"
-              className="inline-flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium mt-4 transition-colors"
+              className="inline-flex items-center gap-1.5 bg-fuchsia-500 hover:bg-fuchsia-600 text-white px-4 py-2 rounded-lg text-sm font-medium mt-4 transition-colors"
             >
               發起揪團
             </Link>
