@@ -41,7 +41,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${notoTC.variable} min-h-full flex flex-col antialiased`}
         style={{ background: "var(--bg)", color: "var(--text)" }}
       >
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <NavBar />
           <main className="flex-1">{children}</main>
           <footer
