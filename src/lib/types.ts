@@ -7,13 +7,7 @@ export type SportType =
   | 'badminton'
   | 'running'
   | 'football'
-  | 'tennis'
   | 'volleyball'
-  | 'baseball'
-  | 'swimming'
-  | 'cycling'
-  | 'boxing'
-  | 'other'
 
 export type SquadStatus = 'open' | 'full' | 'cancelled'
 export type ParticipationStatus = 'confirmed' | 'pending' | 'cancelled'
@@ -121,15 +115,9 @@ export interface UpdateProfileInput {
 export const SPORT_LABELS: Record<SportType, string> = {
   basketball: '🏀 籃球',
   badminton: '🏸 羽球',
-  running: '🏃 慢跑/路跑',
+  running: '🏃 跑步',
   football: '⚽ 足球',
-  tennis: '🎾 網球',
   volleyball: '🏐 排球',
-  baseball: '⚾ 棒球',
-  swimming: '🏊 游泳',
-  cycling: '🚴 單車',
-  boxing: '🥊 拳擊/格鬥',
-  other: '🏅 其他',
 }
 
 export const SPORT_ICONS: Record<SportType, string> = {
@@ -137,13 +125,7 @@ export const SPORT_ICONS: Record<SportType, string> = {
   badminton: '🏸',
   running: '🏃',
   football: '⚽',
-  tennis: '🎾',
   volleyball: '🏐',
-  baseball: '⚾',
-  swimming: '🏊',
-  cycling: '🚴',
-  boxing: '🥊',
-  other: '🏅',
 }
 
 export const TAIWAN_CITIES = [
