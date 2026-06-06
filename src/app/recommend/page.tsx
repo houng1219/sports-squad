@@ -1,62 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Sparkles, MapPin, Clock, Users, ArrowRight, ThumbsUp } from 'lucide-react'
-import { SPORT_LABELS, SKILL_LABELS, type SportType, type Recommendation } from '@/lib/types'
+import { Sparkles, MapPin, Clock, Users, ArrowRight, ThumbsUp, Filter } from 'lucide-react'
+import { SPORT_LABELS, SPORT_ICONS, TAIWAN_CITIES, type SportType, type SquadCard } from '@/lib/types'
 import { getAllSquadCards } from '@/lib/mock-data'
 import { format } from 'date-fns'
 import { zhTW } from 'date-fns/locale'
 
-// Simple recommendation logic
-function computeRecommendations(userCity: string, userSports: SportType[], currentUserId: string): Recommendation[] {
-  const allSquads = getAllSquadCards(currentUserId)
-
-  return allSquads
-    .map(squad => {
-      let score = 50
-      let reasons: string[] = []
-
-      // City match: +30
-      if (squad.city === userCity) {
-        score += 30
-        reasons.push('同縣市')
-      }
-
-      // Sport preference match: +20
-      if (userSports.includes(squad.sport)) {
-        score += 20
-        reasons.push(`喜歡的${SPORT_LABELS[squad.sport].split(' ')[1]}`)
-      }
-
-      // Available slots: +10
-      const slots = squad.max_participants - squad.participant_count
-      if (slots >= 5) {
-        score += 10
-        reasons.push('名額充足')
-      }
-
-      // Soon: +5
-      const hoursUntil = (new Date(squad.scheduled_at).getTime() - Date.now()) / 3600000
-      if (hoursUntil <= 24 && hoursUntil > 0) {
-        score += 5
-        reasons.push('即將開始')
-      }
-
-      // Free: +5
-      if (squad.price_per_person === 0) {
-        score += 5
-        reasons.push('免費')
-      }
-
-      return {
-        squad,
-        score: Math.min(100, score),
-        reason: reasons.join(' · ') || '符合你的偏好',
-      }
-    })
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 6)
+// AI scoring
+function scoreSquad(squad: SquadCard, userCity: string, userSports: SportType[]): { score: number; reasons: string[] } {
+  let score = 50
+  const reasons: string[] = []
+  if (squad.city === userCity) { score += 30; reasons.push('同縣市') }
+  if (userSports.includes(squad.sport as SportType)) { score += 20; reasons.push('喜歡的球類') }
+  const slots = squad.max_participants - squad.participant_count
+  if (slots >= 5) { score += 10; reasons.push('名額充足') }
+  const hoursUntil = (new Date(squad.scheduled_at).getTime() - Date.now()) / 3600000
+  if (hoursUntil <= 24 && hoursUntil > 0) { score += 5; reasons.push('即將開始') }
+  if (squad.price_per_person === 0) { score += 5; reasons.push('免費') }
+  return { score: Math.min(100, score), reasons }
 }
 
 const SPORTS = Object.keys(SPORT_LABELS) as SportType[]
@@ -74,150 +37,179 @@ export default function RecommendPage() {
     })
   }
 
-  const recommendations = computeRecommendations(userCity, Array.from(selectedSports), 'u1')
+  const allSquads = useMemo(() => getAllSquadCards('u1'), [])
+  const recommendations = useMemo(() => {
+    return allSquads
+      .map(squad => {
+        const { score, reasons } = scoreSquad(squad, userCity, Array.from(selectedSports))
+        return { squad, score, reason: reasons.join(' · ') || '符合你的偏好' }
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6)
+  }, [allSquads, userCity, selectedSports])
 
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-slate-800 to-indigo-500 text-white">
-        <div className="max-w-6xl mx-auto px-4 py-10">
+      <div className="relative overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/15 via-sky-600/10 to-teal-500/10" />
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(56,189,248,0.3) 0%, transparent 50%)'
+        }} />
+        <div className="relative max-w-7xl mx-auto px-4 py-10 md:py-14">
           <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-5 h-5" />
-            <span className="text-sm font-medium text-purple-200">智能推薦</span>
+            <div className="bg-cyan-500/15 border border-cyan-500/30 rounded-full p-1.5">
+              <Sparkles className="w-4 h-4 text-cyan-300" />
+            </div>
+            <span className="text-sm font-medium text-cyan-300">AI 智能推薦</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">為你精選的揪團</h1>
-          <p className="text-purple-200 text-sm">根據你的所在地與運動喜好，AI 推薦最適合的揪團</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-white">為你精選的揪團</h1>
+          <p className="text-white/50 text-sm">根據你的所在地與運動喜好，AI 推薦最適合的揪團</p>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar: Preference Tuning */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl border border-gray-100 p-5 sticky top-24">
-              <h2 className="font-semibold text-gray-900 mb-4">調整偏好</h2>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
+          {/* Sidebar: Preference */}
+          <aside>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 sticky top-24">
+              <h2 className="font-semibold text-white mb-4 flex items-center gap-1.5">
+                <Filter className="w-4 h-4 text-cyan-400" />
+                調整偏好
+              </h2>
 
               <div className="mb-5">
-                <label className="block text-sm font-medium text-gray-700 mb-2">你的所在</label>
-                <select
-                  value={userCity}
-                  onChange={e => setUserCity(e.target.value)}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-                >
+                <label className="block text-xs uppercase tracking-wider text-white/50 font-medium mb-2">📍 你的所在</label>
+                <div className="flex flex-wrap gap-1.5">
                   {['台北市', '新北市', '桃園市', '台中市', '台南市', '高雄市'].map(c => (
-                    <option key={c} value={c}>{c}</option>
+                    <button
+                      key={c}
+                      onClick={() => setUserCity(c)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                        userCity === c
+                          ? 'border-cyan-400 bg-cyan-500/15 text-cyan-300'
+                          : 'border-white/10 bg-white/[0.02] text-white/60 hover:border-white/30'
+                      }`}
+                    >
+                      {c}
+                    </button>
                   ))}
-                </select>
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  喜歡的球類 <span className="text-xs text-gray-400">(最多5項)</span>
+                <label className="block text-xs uppercase tracking-wider text-white/50 font-medium mb-2">
+                  🏀 喜歡的球類 <span className="text-white/30">(最多 5 項,已選 {selectedSports.size})</span>
                 </label>
-                <div className="space-y-2">
+                <div className="grid grid-cols-2 gap-1.5">
                   {SPORTS.map(sport => {
-                    const label = SPORT_LABELS[sport]
-                    const emoji = label.split(' ')[0]
-                    const text = label.split(' ')[1]
+                    const emoji = SPORT_ICONS[sport]
+                    const text = SPORT_LABELS[sport].replace(/^[^\s]+\s/, '')
                     const active = selectedSports.has(sport)
                     return (
                       <button
                         key={sport}
                         onClick={() => toggleSport(sport)}
-                        className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+                        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs transition-all ${
                           active
-                            ? 'bg-purple-50 text-purple-700 border border-purple-200'
-                            : 'bg-gray-50 text-gray-600 border border-transparent hover:bg-gray-100'
+                            ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-400/50 font-medium'
+                            : 'bg-white/[0.02] text-white/60 border border-white/10 hover:border-white/30'
                         }`}
                       >
                         <span>{emoji}</span>
-                        <span className="font-medium">{text}</span>
-                        {active && <Sparkles className="w-3.5 h-3.5 ml-auto text-purple-400" />}
+                        <span className="flex-1 text-left">{text}</span>
+                        {active && <Sparkles className="w-3 h-3" />}
                       </button>
                     )
                   })}
                 </div>
               </div>
             </div>
-          </div>
+          </aside>
 
           {/* Main: Recommendations */}
-          <div className="lg:col-span-3">
+          <main>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-900">推薦結果 ({recommendations.length})</h2>
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                推薦結果
+                <span className="text-sm font-normal text-cyan-300">({recommendations.length})</span>
+              </h2>
             </div>
 
             {recommendations.length === 0 ? (
-              <div className="text-center py-16">
-                <Sparkles className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500 font-medium mb-2">調整偏好試試看</p>
-                <p className="text-gray-400 text-sm">選擇你喜歡的球類與所在縣市，我們就幫你找揪團</p>
+              <div className="text-center py-16 bg-white/5 border border-white/10 rounded-2xl">
+                <Sparkles className="w-12 h-12 text-white/20 mx-auto mb-4" />
+                <p className="text-white/60 font-medium mb-2">調整偏好試試看</p>
+                <p className="text-white/40 text-sm">選擇你喜歡的球類與所在縣市</p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {recommendations.map(rec => {
-                  const sportLabel = SPORT_LABELS[rec.squad.sport]
-                  const sportEmoji = sportLabel.split(' ')[0]
-                  const sportText = sportLabel.split(' ')[1]
+                  const emoji = SPORT_ICONS[rec.squad.sport as SportType] || '🏅'
+                  const sportText = SPORT_LABELS[rec.squad.sport as SportType].replace(/^[^\s]+\s/, '')
                   const date = new Date(rec.squad.scheduled_at)
                   const isFree = rec.squad.price_per_person === 0
                   const isFull = rec.squad.participant_count >= rec.squad.max_participants
+                  const slotsRatio = rec.squad.participant_count / rec.squad.max_participants
 
                   return (
                     <Link
                       key={rec.squad.id}
                       href={`/squads/${rec.squad.id}`}
-                      className="group block bg-white rounded-2xl border border-gray-100 hover:border-purple-200 hover:shadow-lg transition-all overflow-hidden"
+                      className="group block bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-cyan-500/40 rounded-2xl overflow-hidden transition-all"
                     >
                       <div className="flex">
                         {/* Score Badge */}
-                        <div className="flex flex-col items-center justify-center px-5 py-6 bg-gradient-to-b from-purple-50 to-indigo-50 border-r border-purple-100 min-w-[80px]">
-                          <div className="text-2xl font-bold text-purple-600">{rec.score}</div>
-                          <div className="text-xs text-purple-400">match</div>
-                          <ThumbsUp className="w-4 h-4 text-purple-400 mt-1" />
+                        <div className="flex flex-col items-center justify-center px-4 py-5 bg-gradient-to-b from-cyan-500/15 to-sky-500/10 border-r border-cyan-500/20 min-w-[78px]">
+                          <div className="text-2xl font-bold text-cyan-300">{rec.score}</div>
+                          <div className="text-[10px] text-cyan-400/80 uppercase tracking-wider">match</div>
+                          <ThumbsUp className="w-3.5 h-3.5 text-cyan-400/60 mt-1" />
                         </div>
 
                         {/* Content */}
-                        <div className="flex-1 p-5">
+                        <div className="flex-1 p-4">
                           <div className="flex items-start justify-between mb-2">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-lg">{emoji}</span>
+                              <span className="text-sm font-semibold text-white/70">{sportText}</span>
+                              {isFull ? (
+                                <span className="text-[10px] bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded-full font-medium">已額滿</span>
+                              ) : (
+                                <span className="text-[10px] bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded-full font-medium">可報名</span>
+                              )}
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-white/30 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
+                          </div>
+
+                          <h3 className="font-semibold text-white text-base mb-2 line-clamp-1">{rec.squad.title}</h3>
+
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-white/60 mb-2.5">
+                            <span className="flex items-center gap-1 text-cyan-300 font-medium">
+                              🕐 {format(date, 'M/dd (EEE) HH:mm', { locale: zhTW })}
+                            </span>
+                            <span className="flex items-center gap-1">📍 {rec.squad.city} {rec.squad.district}</span>
+                          </div>
+
+                          <div className="flex items-center justify-between gap-2 pt-2.5 border-t border-white/5">
                             <div className="flex items-center gap-2">
-                              <span className="text-xl">{sportEmoji}</span>
-                              <span className="text-sm font-semibold text-gray-600">{sportText}</span>
-                              <span className={`text-xs px-2 py-0.5 rounded-full ${
-                                isFull ? 'bg-red-50 text-red-500' : 'bg-green-50 text-green-600'
-                              }`}>
-                                {isFull ? '已額滿' : '可報名'}
+                              {isFree ? (
+                                <span className="text-sm font-bold text-emerald-400">免費</span>
+                              ) : (
+                                <span className="text-sm font-bold text-cyan-300">${rec.squad.price_per_person}</span>
+                              )}
+                              <span className="text-[10px] text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-full">
+                                ✨ {rec.reason}
                               </span>
                             </div>
-                            <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-purple-400 transition-colors" />
-                          </div>
-
-                          <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
-                            {rec.squad.title}
-                          </h3>
-
-                          <div className="flex flex-wrap gap-3 text-sm text-gray-500 mb-3">
-                            <span className="flex items-center gap-1">
-                              <Clock className="w-3.5 h-3.5" />
-                              {format(date, 'M/dd (EEE) HH:mm', { locale: zhTW })}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <MapPin className="w-3.5 h-3.5" />
-                              {rec.squad.city} {rec.squad.district}
-                            </span>
-                            <span className="flex items-center gap-1">
+                            <div className="flex items-center gap-1.5 text-xs text-white/60">
                               <Users className="w-3.5 h-3.5" />
-                              {rec.squad.participant_count}/{rec.squad.max_participants}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center justify-between">
-                            <span className={`text-sm font-semibold ${isFree ? 'text-green-600' : 'text-gray-700'}`}>
-                              {isFree ? '免費' : `${rec.squad.price_per_person}元`}
-                            </span>
-                            <span className="text-xs text-purple-500 bg-purple-50 px-2 py-1 rounded-full">
-                              {rec.reason}
-                            </span>
+                              <div className="flex items-center gap-1">
+                                <div className="w-10 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                  <div className={`h-full ${slotsRatio >= 1 ? 'bg-rose-400' : slotsRatio >= 0.7 ? 'bg-amber-400' : 'bg-emerald-400'}`} style={{ width: `${Math.min(100, slotsRatio * 100)}%` }} />
+                                </div>
+                                <span className="font-medium text-white/80">{rec.squad.participant_count}/{rec.squad.max_participants}</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -226,7 +218,7 @@ export default function RecommendPage() {
                 })}
               </div>
             )}
-          </div>
+          </main>
         </div>
       </div>
     </div>

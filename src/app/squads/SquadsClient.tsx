@@ -45,11 +45,11 @@ const SKILL_NAME_MAP: Record<number, string> = {
 }
 
 // 時段(0-23) - 只顯示 5 個關鍵節點,寬度才夠
-const HOUR_LABELS: (string | null)[] = [
-  '00', null, null, null, null, null,
-  '06', null, null, null, null, null,
-  '12', null, null, null, null, null,
-  '18', null, null, null, null, '23',
+const HOUR_LABELS: string[] = [
+  '00', '', '', '', '', '',
+  '06', '', '', '', '', '',
+  '12', '', '', '', '', '',
+  '18', '', '', '', '', '23',
 ]
 
 // 球類選項
@@ -69,14 +69,14 @@ const FACILITY_OPTIONS = [
   { value: 'water', label: '飲水機', emoji: '💧' },
 ]
 
-interface SquadsPlayOneProps {
+interface SquadsClientProps {
   squads: SquadCard[]
 }
 
 // ============================================================
 // 主組件
 // ============================================================
-export default function SquadsPlayOne({ squads }: SquadsPlayOneProps) {
+export default function SquadsClient({ squads }: SquadsClientProps) {
   const [filters, setFilters] = useState<FilterState>({
     cities: [],
     sports: [],
