@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Check } from 'lucide-react'
+import { Check, X, UserPlus, LogOut } from 'lucide-react'
 import { joinSquad, leaveSquad } from '@/lib/api'
 
 export default function JoinButton({
@@ -24,8 +24,6 @@ export default function JoinButton({
     setLoading(true)
     setError(null)
     try {
-      // For MVP, use a mock user ID or anonymous
-      // In production, this would come from AuthContext
       await joinSquad(squadId, 'demo-user-id')
       window.location.reload()
     } catch (e: unknown) {
@@ -48,10 +46,8 @@ export default function JoinButton({
 
   if (isOrganizer) {
     return (
-      <div className="space-y-2">
-        <div className="bg-sky-50 text-sky-600 text-center py-3 rounded-xl text-sm font-medium">
-          這是你發起的揪團
-        </div>
+      <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-xl text-sm font-medium">
+        這是你發起的揪團
       </div>
     )
   }
@@ -59,25 +55,28 @@ export default function JoinButton({
   if (isJoined) {
     return (
       <div className="space-y-2">
-        <div className="bg-green-50 text-green-600 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium">
+        <div className="bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold">
           <Check className="w-4 h-4" />
           已報名參加
         </div>
         <button
           onClick={handleLeave}
           disabled={loading}
-          className="w-full text-center border border-red-200 text-red-500 hover:bg-red-50 py-2.5 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
+          className="w-full text-center border border-rose-500/30 text-rose-300 hover:bg-rose-500/10 py-2.5 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
         >
-          {loading ? '取消中...' : '取消報名'}
+          <span className="inline-flex items-center gap-1.5">
+            <LogOut className="w-3.5 h-3.5" />
+            {loading ? '取消中...' : '取消報名'}
+          </span>
         </button>
-        {error && <p className="text-red-500 text-xs text-center">{error}</p>}
+        {error && <p className="text-rose-400 text-xs text-center">{error}</p>}
       </div>
     )
   }
 
   if (isFull) {
     return (
-      <div className="bg-gray-100 text-gray-500 text-center py-3 rounded-xl text-sm font-medium">
+      <div className="bg-white/5 border border-white/10 text-white/50 text-center py-3 rounded-xl text-sm font-medium">
         已額滿
       </div>
     )
@@ -88,14 +87,14 @@ export default function JoinButton({
       <button
         onClick={handleJoin}
         disabled={loading}
-        className="w-full bg-sky-500 hover:bg-sky-600 disabled:bg-orange-300 text-white py-3 rounded-xl text-sm font-semibold transition-colors"
+        className="w-full bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 disabled:opacity-50 text-white py-3.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-cyan-500/20"
       >
-        {loading ? '報名中...' : '報名參加'}
+        <span className="inline-flex items-center gap-1.5">
+          <UserPlus className="w-4 h-4" />
+          {loading ? '報名中...' : '立即報名'}
+        </span>
       </button>
-      {error && <p className="text-red-500 text-xs text-center">{error}</p>}
-      <p className="text-xs text-gray-400 text-center">
-        免費活動，無需預付
-      </p>
+      {error && <p className="text-rose-400 text-xs text-center">{error}</p>}
     </div>
   )
 }

@@ -280,3 +280,58 @@ export function getSquadById(id: string, currentUserId?: string): SquadCard | un
   if (!squad) return undefined
   return getSquadCard(squad, currentUserId)
 }
+// ============================================================
+// Testimonials (見證)
+// ============================================================
+
+export interface Testimonial {
+  id: string
+  name: string
+  avatar: string
+  sport: string
+  sport_emoji: string
+  rating: number
+  quote: string
+  highlight: string
+  squad_count: number
+  city: string
+}
+
+export const mockTestimonials: Testimonial[] = [
+  {
+    id: 't1',
+    name: '阿偉',
+    avatar: '🦊',
+    sport: '羽球',
+    sport_emoji: '🏸',
+    rating: 5,
+    quote: '本來揪羽球都要一個一個私訊問，現在用 SportsSquad 一發就湊滿 8 個人。每週三固定場，還認識了幾個實力相近的球友，進步超有感。',
+    highlight: '每週穩定揪到 8 人',
+    squad_count: 47,
+    city: '新北 板橋',
+  },
+  {
+    id: 't2',
+    name: 'Rex',
+    avatar: '🐯',
+    sport: '籃球',
+    sport_emoji: '🏀',
+    rating: 5,
+    quote: '我以前發籃球揪團最怕「人剛好少一個」。自從用 SportsSquad，系統會主動推薦程度相近的球友，三打三湊到五打五也不是問題。',
+    highlight: '從 3 人湊到 12 人',
+    squad_count: 23,
+    city: '台北 南港',
+  },
+  {
+    id: 't3',
+    name: 'Andy',
+    avatar: '🐻',
+    sport: '路跑',
+    sport_emoji: '🏃',
+    rating: 5,
+    quote: '我原本是跑齡不到一年的新手，自己跑常常偷懶。透過揪團我認識了一群跑友，半年內完成了人生第一場半馬。',
+    highlight: '陪 5 個跑友完成半馬',
+    squad_count: 31,
+    city: '台北 信義',
+  },
+]
