@@ -44,12 +44,12 @@ const SKILL_NAME_MAP: Record<number, string> = {
   3: '高級',
 }
 
-// 時段(0-23) - 只顯示 6 個主要刻度
+// 時段(0-23) - 只顯示 5 個關鍵節點,寬度才夠
 const HOUR_LABELS: (string | null)[] = [
-  '00:00', null, null, '03:00', null, null,
-  '06:00', null, null, '09:00', null, null,
-  '12:00', null, null, '15:00', null, null,
-  '18:00', null, null, '21:00', null, '23:00',
+  '00', null, null, null, null, null,
+  '06', null, null, null, null, null,
+  '12', null, null, null, null, null,
+  '18', null, null, null, null, '23',
 ]
 
 // 球類選項

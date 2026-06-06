@@ -156,7 +156,7 @@ export default function RangeSlider({
       </div>
 
       {/* Tick labels */}
-      <div className="flex justify-between mt-2">
+      <div className="flex justify-between mt-2 px-1">
         {ticks.map((label, i) => {
           if (!label) {
             return <span key={i} className="w-0" />  // 隱藏空白刻度
@@ -166,7 +166,7 @@ export default function RangeSlider({
           return (
             <span
               key={i}
-              className={`text-[10px] sm:text-xs transition-colors ${
+              className={`text-[9px] sm:text-[10px] transition-colors whitespace-nowrap ${
                 isActive ? 'text-cyan-400 font-medium' : 'text-white/40'
               }`}
             >
