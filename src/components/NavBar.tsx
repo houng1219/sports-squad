@@ -65,14 +65,14 @@ export default function NavBar() {
 
             <Link
               href="/squads/new"
-              className="flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all"
             >
               <Plus className="w-4 h-4" />
               發起揪團
             </Link>
             <Link
               href="/profile"
-              className="flex items-center gap-1.5 border-2 border-orange-200 hover:border-orange-400 hover:bg-orange-50 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium transition-all"
+              className="flex items-center gap-1.5 border border-cyan-500/30 hover:border-cyan-500/60 hover:bg-cyan-500/10 text-cyan-300 px-4 py-2 rounded-xl text-sm font-medium transition-all"
             >
               <User className="w-4 h-4" />
               個人檔案
