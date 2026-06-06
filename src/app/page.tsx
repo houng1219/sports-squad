@@ -98,11 +98,17 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="/squads"
+                href="/squads/playone"
                 className="flex items-center justify-center gap-2 bg-white text-sky-600 px-6 py-3 rounded-xl font-semibold hover:bg-sky-50 transition-colors"
               >
-                瀏覽揪團
+                🔥 瀏覽揪團 (新版)
                 <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/squads"
+                className="flex items-center justify-center gap-2 bg-white/10 text-white px-6 py-3 rounded-xl font-semibold border border-white/30 hover:bg-white/20 transition-colors"
+              >
+                經典版
               </Link>
               <Link
                 href="/squads/new"
