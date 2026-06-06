@@ -6,8 +6,7 @@ import { format } from 'date-fns'
 import { zhTW } from 'date-fns/locale'
 
 const SPORT_LIST: SportType[] = [
-  'basketball', 'badminton', 'running', 'football',
-  'tennis', 'volleyball', 'swimming', 'cycling',
+  'basketball', 'badminton', 'running', 'football', 'volleyball',
 ]
 
 // ============================================================
