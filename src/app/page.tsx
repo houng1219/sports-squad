@@ -24,18 +24,18 @@ function SquadCardHome({ squad }: { squad: ReturnType<typeof getAllSquadCards>[0
   return (
     <Link
       href={`/squads/${squad.id}`}
-      className="group block bg-white/5 rounded-3xl border-2 border-white/10 hover:border-cyan-500/40 hover:shadow-xl transition-all duration-200 overflow-hidden"
+      className="group block bg-[#f5f5f7] rounded-3xl border-2 border-[#d2d2d7]/60 hover:border-[#0071e3] hover:shadow-xl transition-all duration-200 overflow-hidden"
     >
       {/* Header with sport color */}
-      <div className="bg-gradient-to-r from-cyan-500 to-sky-500 p-4 flex items-center justify-between">
+      <div className="bg-[#0071e3] p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-2xl">{sportEmoji}</span>
-          <span className="text-white font-bold">{sportText}</span>
-          <span className="text-white/80 text-xs">揪團</span>
+          <span className="text-[#1d1d1f] font-bold">{sportText}</span>
+          <span className="text-[#1d1d1f] text-xs">揪團</span>
         </div>
-        <div className="flex items-center gap-1 bg-black/20 rounded-full px-3 py-1">
-          <Users className="w-3.5 h-3.5 text-white" />
-          <span className="text-white text-sm font-bold">
+        <div className="flex items-center gap-1 bg-[#e8e8ed] rounded-full px-3 py-1">
+          <Users className="w-3.5 h-3.5 text-[#1d1d1f]" />
+          <span className="text-[#1d1d1f] text-sm font-bold">
             {squad.participant_count}/{squad.max_participants}
           </span>
         </div>
@@ -43,28 +43,28 @@ function SquadCardHome({ squad }: { squad: ReturnType<typeof getAllSquadCards>[0
 
       {/* Content */}
       <div className="p-5">
-        <h3 className="font-bold text-base mb-3 group-hover:text-cyan-300 transition-colors" style={{ color: 'var(--text)' }}>
+        <h3 className="font-bold text-base mb-3 group-hover:text-[#0071e3] transition-colors" style={{ color: '#1d1d1f' }}>
           {squad.title}
         </h3>
 
-        <div className="space-y-1.5 text-sm" style={{ color: 'var(--text-secondary)' }}>
+        <div className="space-y-1.5 text-sm" style={{ color: '#6e6e73' }}>
           <div className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 flex-shrink-0 text-cyan-400" />
+            <Clock className="w-4 h-4 flex-shrink-0 text-[#0071e3]" />
             <span>{format(date, 'M/dd (EEE) HH:mm', { locale: zhTW })}</span>
             <span className="text-gray-300">·</span>
             <span>{squad.duration_minutes}分鐘</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 flex-shrink-0 text-cyan-400" />
+            <MapPin className="w-4 h-4 flex-shrink-0 text-[#0071e3]" />
             <span>{squad.district || squad.city} {squad.location_detail}</span>
           </div>
         </div>
 
-        <div className="mt-4 pt-3 flex items-center justify-between" style={{ borderTop: '1px dashed var(--border)' }}>
-          <span className={`text-sm font-bold ${isFree ? 'text-green-600' : 'text-cyan-300'}`}>
+        <div className="mt-4 pt-3 flex items-center justify-between" style={{ borderTop: '1px dashed #d2d2d7' }}>
+          <span className={`text-sm font-bold ${isFree ? 'text-green-600' : 'text-[#0071e3]'}`}>
             {isFree ? '✨ 免費' : `${squad.price_per_person}元/人`}
           </span>
-          <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+          <span className="text-xs" style={{ color: '#6e6e73' }}>
             主辦：{squad.organizer?.full_name || '未知'}
           </span>
         </div>
@@ -75,12 +75,12 @@ function SquadCardHome({ squad }: { squad: ReturnType<typeof getAllSquadCards>[0
 
 function StatCard({ icon: Icon, value, label }: { icon: any; value: string; label: string }) {
   return (
-    <div className="bg-white/5 rounded-3xl border-2 border-white/10 p-6 text-center hover:shadow-lg transition-shadow">
-      <div className="w-14 h-14 bg-gradient-to-br from-cyan-500/15 to-sky-500/10 border border-cyan-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
-        <Icon className="w-7 h-7 text-cyan-400" />
+    <div className="bg-[#f5f5f7] rounded-3xl border-2 border-[#d2d2d7]/60 p-6 text-center hover:shadow-lg transition-shadow">
+      <div className="w-14 h-14 bg-[#f5f5f7] border border-[#0071e3]/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
+        <Icon className="w-7 h-7 text-[#0071e3]" />
       </div>
-      <div className="text-3xl font-black mb-1" style={{ color: 'var(--text)' }}>{value}</div>
-      <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>{label}</div>
+      <div className="text-3xl font-black mb-1" style={{ color: '#1d1d1f' }}>{value}</div>
+      <div className="text-sm" style={{ color: '#6e6e73' }}>{label}</div>
     </div>
   )
 }
@@ -193,15 +193,15 @@ export default function HomePage() {
         </div>
         <div className="relative max-w-6xl mx-auto px-4 py-20 md:py-28">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full px-4 py-2 mb-6">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span className="text-sm font-bold" style={{ color: 'var(--accent)' }}>
+            <div className="inline-flex items-center gap-2 bg-[#0071e3]/10 border border-[#0071e3]/30 rounded-full px-4 py-2 mb-6">
+              <Sparkles className="w-4 h-4 text-[#0071e3]" />
+              <span className="text-sm font-bold" style={{ color: '#0071e3' }}>
                 847 位運動夥伴都在用
               </span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6 text-shadow-warm" style={{ color: 'var(--text)' }}>
+            <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6 " style={{ color: '#1d1d1f' }}>
               找到對的運動夥伴<br />
-              <span className="text-cyan-400">一起流的汗最好玩</span>
+              <span className="text-[#0071e3]">一起流的汗最好玩</span>
             </h1>
             <p className="text-lg md:text-xl mb-8 leading-relaxed" style={{ color: '#5C4030' }}>
               不用再揪不到人、不用再換球場、不用再尬聊陌生人。<br />
@@ -210,14 +210,14 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href="/squads/new"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-[#0071e3] hover:from-cyan-400 hover:to-sky-400 text-[#1d1d1f] px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
               >
                 🔥 3 分鐘發起揪團
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 href="/squads"
-                className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-2xl font-bold text-lg border-2 border-white/20 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-[#f5f5f7] hover:bg-[#0071e3]/10 text-[#1d1d1f] border border-[#d2d2d7] px-8 py-4 rounded-2xl font-bold text-lg border-2 border-[#d2d2d7] transition-all"
               >
                 瀏覽附近揪團
               </Link>
@@ -242,10 +242,10 @@ export default function HomePage() {
           ============================================================ */}
       <section className="max-w-6xl mx-auto px-4 mb-20">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text)' }}>
-            你是哪一種運動咖？<span className="text-cyan-400">👇</span>
+          <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: '#1d1d1f' }}>
+            你是哪一種運動咖？<span className="text-[#0071e3]">👇</span>
           </h2>
-          <p className="text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-base md:text-lg" style={{ color: '#6e6e73' }}>
             點選最符合你的情境，我們幫你找到對的服務
           </p>
         </div>
@@ -254,16 +254,16 @@ export default function HomePage() {
             <Link
               key={card.title}
               href={card.href}
-              className={`group block bg-gradient-to-br ${card.color} rounded-3xl p-6 border-2 border-white hover:border-cyan-500/40 hover:shadow-xl transition-all`}
+              className={`group block bg-gradient-to-br ${card.color} rounded-3xl p-6 border-2 border-white hover:border-[#0071e3] hover:shadow-xl transition-all`}
             >
               <div className="text-5xl mb-3 bounce-soft">{card.emoji}</div>
-              <h3 className="font-bold text-base mb-2" style={{ color: 'var(--text)' }}>
+              <h3 className="font-bold text-base mb-2" style={{ color: '#1d1d1f' }}>
                 {card.title}
               </h3>
               <p className="text-sm mb-4 leading-relaxed" style={{ color: '#5C4030' }}>
                 {card.desc}
               </p>
-              <span className="inline-flex items-center gap-1 text-sm font-bold text-cyan-300 group-hover:gap-2 transition-all">
+              <span className="inline-flex items-center gap-1 text-sm font-bold text-[#0071e3] group-hover:gap-2 transition-all">
                 {card.cta}
                 <ArrowRight className="w-4 h-4" />
               </span>
@@ -277,10 +277,10 @@ export default function HomePage() {
           ============================================================ */}
       <section className="max-w-6xl mx-auto px-4 mb-16">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-2xl md:text-3xl font-black" style={{ color: 'var(--text)' }}>
+          <h2 className="text-2xl md:text-3xl font-black" style={{ color: '#1d1d1f' }}>
             🏆 探索運動
           </h2>
-          <Link href="/squads" className="text-sm font-bold text-cyan-400 hover:text-cyan-300">
+          <Link href="/squads" className="text-sm font-bold text-[#0071e3] hover:text-[#0071e3]">
             看全部 →
           </Link>
         </div>
@@ -293,10 +293,10 @@ export default function HomePage() {
               <Link
                 key={sport}
                 href={`/squads?sport=${sport}`}
-                className="flex flex-col items-center gap-2 bg-white/5 border-2 border-white/10 hover:border-cyan-500/40 hover:shadow-lg rounded-3xl px-6 py-4 min-w-[88px] transition-all"
+                className="flex flex-col items-center gap-2 bg-[#f5f5f7] border-2 border-[#d2d2d7]/60 hover:border-[#0071e3] hover:shadow-lg rounded-3xl px-6 py-4 min-w-[88px] transition-all"
               >
                 <span className="text-3xl">{emoji}</span>
-                <span className="font-bold text-sm" style={{ color: 'var(--text)' }}>{text}</span>
+                <span className="font-bold text-sm" style={{ color: '#1d1d1f' }}>{text}</span>
               </Link>
             )
           })}
@@ -308,10 +308,10 @@ export default function HomePage() {
           ============================================================ */}
       <section className="max-w-6xl mx-auto px-4 mb-20">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-2xl md:text-3xl font-black" style={{ color: 'var(--text)' }}>
+          <h2 className="text-2xl md:text-3xl font-black" style={{ color: '#1d1d1f' }}>
             🔥 最新揪團
           </h2>
-          <Link href="/squads" className="text-sm font-bold text-cyan-400 hover:text-cyan-300">
+          <Link href="/squads" className="text-sm font-bold text-[#0071e3] hover:text-[#0071e3]">
             看全部 →
           </Link>
         </div>
@@ -328,29 +328,29 @@ export default function HomePage() {
       <section className="bg-gradient-to-br from-white/[0.02] to-white/[0.02] py-20 mb-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full px-4 py-2 mb-4">
-              <Zap className="w-4 h-4 text-cyan-400" />
-              <span className="text-sm font-bold text-cyan-400">3 分鐘搞定</span>
+            <div className="inline-flex items-center gap-2 bg-[#0071e3]/10 border border-[#0071e3]/30 rounded-full px-4 py-2 mb-4">
+              <Zap className="w-4 h-4 text-[#0071e3]" />
+              <span className="text-sm font-bold text-[#0071e3]">3 分鐘搞定</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text)' }}>
+            <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: '#1d1d1f' }}>
               發起揪團，比你想的還簡單
             </h2>
-            <p className="text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-base md:text-lg" style={{ color: '#6e6e73' }}>
               不用學、不用填一堆表單，手機 3 分鐘就完成
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
             {HOW_STEPS.map((step, idx) => (
               <div key={step.num} className="relative">
-                <div className="bg-white/5 rounded-3xl p-6 border-2 border-white/10 hover:border-cyan-500/40 hover:shadow-xl transition-all transition-shadow h-full">
+                <div className="bg-[#f5f5f7] rounded-3xl p-6 border-2 border-[#d2d2d7]/60 hover:border-[#0071e3] hover:shadow-xl transition-all transition-shadow h-full">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-sky-500 rounded-2xl flex items-center justify-center text-white font-black text-lg shadow-md">
+                    <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-sky-500 rounded-2xl flex items-center justify-center text-[#1d1d1f] font-black text-lg shadow-md">
                       {step.num}
                     </div>
                     <div className="text-3xl">{step.emoji}</div>
                   </div>
-                  <h3 className="font-bold text-base mb-2" style={{ color: 'var(--text)' }}>{step.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{step.desc}</p>
+                  <h3 className="font-bold text-base mb-2" style={{ color: '#1d1d1f' }}>{step.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: '#6e6e73' }}>{step.desc}</p>
                 </div>
                 {idx < HOW_STEPS.length - 1 && (
                   <div className="hidden md:block absolute top-1/2 -right-2 transform -translate-y-1/2 text-orange-300 z-10">
@@ -363,7 +363,7 @@ export default function HomePage() {
           <div className="text-center mt-10">
             <Link
               href="/squads/new"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
+              className="inline-flex items-center gap-2 bg-[#0071e3] hover:from-cyan-400 hover:to-sky-400 text-[#1d1d1f] px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
             >
               開始發起揪團
               <ArrowRight className="w-5 h-5" />
@@ -378,13 +378,13 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-4 mb-20">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-orange-50 rounded-full px-4 py-2 mb-4">
-            <Shield className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm font-bold text-cyan-400">三大保障</span>
+            <Shield className="w-4 h-4 text-[#0071e3]" />
+            <span className="text-sm font-bold text-[#0071e3]">三大保障</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text)' }}>
+          <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: '#1d1d1f' }}>
             為什麼信任 SportsSquad？
           </h2>
-          <p className="text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-base md:text-lg" style={{ color: '#6e6e73' }}>
             我們處理好信任問題，你只要專心打球
           </p>
         </div>
@@ -392,13 +392,13 @@ export default function HomePage() {
           {TRUST_PILLARS.map(pillar => (
             <div
               key={pillar.title}
-              className="bg-white/5 rounded-3xl p-7 border-2 border-white/10 hover:border-cyan-500/40 hover:shadow-xl transition-all"
+              className="bg-[#f5f5f7] rounded-3xl p-7 border-2 border-[#d2d2d7]/60 hover:border-[#0071e3] hover:shadow-xl transition-all"
             >
-              <div className="w-14 h-14 bg-gradient-to-br from-cyan-500/15 to-sky-500/10 border border-cyan-500/20 rounded-2xl flex items-center justify-center mb-4">
-                <pillar.icon className="w-7 h-7 text-cyan-400" />
+              <div className="w-14 h-14 bg-[#f5f5f7] border border-[#0071e3]/20 rounded-2xl flex items-center justify-center mb-4">
+                <pillar.icon className="w-7 h-7 text-[#0071e3]" />
               </div>
-              <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>{pillar.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{pillar.desc}</p>
+              <h3 className="font-bold text-lg mb-2" style={{ color: '#1d1d1f' }}>{pillar.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#6e6e73' }}>{pillar.desc}</p>
             </div>
           ))}
         </div>
@@ -409,14 +409,14 @@ export default function HomePage() {
           ============================================================ */}
       <section className="max-w-6xl mx-auto px-4 mb-20">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-4 py-2 mb-4">
-            <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-            <span className="text-sm font-bold text-amber-300">毛爸媽都說讚</span>
+          <div className="inline-flex items-center gap-2 bg-[#ff9500]/10 border border-amber-500/30 rounded-full px-4 py-2 mb-4">
+            <Star className="w-4 h-4 text-[#ff9500] fill-amber-400" />
+            <span className="text-sm font-bold text-[#ff9500]">毛爸媽都說讚</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text)' }}>
+          <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: '#1d1d1f' }}>
             真實揪團故事 🏆
           </h2>
-          <p className="text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-base md:text-lg" style={{ color: '#6e6e73' }}>
             847 位使用者怎麼說
           </p>
         </div>
@@ -424,28 +424,28 @@ export default function HomePage() {
           {mockTestimonials.map(t => (
             <div
               key={t.id}
-              className="bg-white/5 rounded-3xl p-6 border-2 border-white/10 hover:border-cyan-500/40 hover:shadow-xl transition-all transition-shadow relative"
+              className="bg-[#f5f5f7] rounded-3xl p-6 border-2 border-[#d2d2d7]/60 hover:border-[#0071e3] hover:shadow-xl transition-all transition-shadow relative"
             >
-              <div className="absolute -top-3 -right-3 bg-gradient-to-br from-cyan-500 to-sky-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+              <div className="absolute -top-3 -right-3 bg-gradient-to-br from-cyan-500 to-sky-500 text-[#1d1d1f] text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
                 {t.highlight}
               </div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/15 to-sky-500/10 border border-cyan-500/20 rounded-full flex items-center justify-center text-2xl">
+                <div className="w-12 h-12 bg-[#f5f5f7] border border-[#0071e3]/20 rounded-full flex items-center justify-center text-2xl">
                   {t.avatar}
                 </div>
                 <div>
-                  <div className="font-bold text-sm" style={{ color: 'var(--text)' }}>{t.name}</div>
-                  <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  <div className="font-bold text-sm" style={{ color: '#1d1d1f' }}>{t.name}</div>
+                  <div className="text-xs" style={{ color: '#6e6e73' }}>
                     {t.sport_emoji} {t.sport} · {t.city} · {t.squad_count} 場揪團
                   </div>
                 </div>
               </div>
               <div className="flex gap-0.5 mb-3">
                 {Array.from({ length: t.rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  <Star key={i} className="w-4 h-4 text-[#ff9500] fill-amber-400" />
                 ))}
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-sm leading-relaxed" style={{ color: '#6e6e73' }}>
                 &ldquo;{t.quote}&rdquo;
               </p>
             </div>
@@ -458,10 +458,10 @@ export default function HomePage() {
           ============================================================ */}
       <section className="max-w-3xl mx-auto px-4 mb-20">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text)' }}>
+          <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: '#1d1d1f' }}>
             常見問題 🙋
           </h2>
-          <p className="text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-base md:text-lg" style={{ color: '#6e6e73' }}>
             沒看到的問題，歡迎 LINE 私訊客服
           </p>
         </div>
@@ -469,16 +469,16 @@ export default function HomePage() {
           {FAQS.map((faq, idx) => (
             <details
               key={idx}
-              className="group bg-white/5 rounded-2xl border-2 border-white/10 hover:border-cyan-500/40 transition-all"
+              className="group bg-[#f5f5f7] rounded-2xl border-2 border-[#d2d2d7]/60 hover:border-[#0071e3] transition-all"
             >
-              <summary className="flex items-center justify-between gap-3 p-5 cursor-pointer font-bold list-none" style={{ color: 'var(--text)' }}>
+              <summary className="flex items-center justify-between gap-3 p-5 cursor-pointer font-bold list-none" style={{ color: '#1d1d1f' }}>
                 <span className="flex items-center gap-2">
-                  <span className="text-cyan-400 font-black">Q{idx + 1}.</span>
+                  <span className="text-[#0071e3] font-black">Q{idx + 1}.</span>
                   {faq.q}
                 </span>
-                <ChevronDown className="w-5 h-5 text-cyan-400 group-open:rotate-180 transition-transform flex-shrink-0" />
+                <ChevronDown className="w-5 h-5 text-[#0071e3] group-open:rotate-180 transition-transform flex-shrink-0" />
               </summary>
-              <div className="px-5 pb-5 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <div className="px-5 pb-5 text-sm leading-relaxed" style={{ color: '#6e6e73' }}>
                 {faq.a}
               </div>
             </details>
@@ -492,32 +492,32 @@ export default function HomePage() {
       <section className="bg-gradient-to-br from-white/[0.02] via-white/[0.02] to-white/[0.02] py-20 mb-20">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text)' }}>
+            <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: '#1d1d1f' }}>
               用揪團讓世界動起來 🌏
             </h2>
-            <p className="text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-base md:text-lg" style={{ color: '#6e6e73' }}>
               我們相信運動不只是流汗，更是連結
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="bg-white/5 rounded-3xl p-6">
+            <div className="bg-[#f5f5f7] rounded-3xl p-6">
               <div className="text-4xl mb-3">💪</div>
-              <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>73% 的人想動但沒伴</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <h3 className="font-bold text-lg mb-2" style={{ color: '#1d1d1f' }}>73% 的人想動但沒伴</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#6e6e73' }}>
                 根據統計，超過 7 成的運動愛好者都曾因為「找不到人」而放棄運動。我們用揪團解決這件事。
               </p>
             </div>
-            <div className="bg-white/5 rounded-3xl p-6">
+            <div className="bg-[#f5f5f7] rounded-3xl p-6">
               <div className="text-4xl mb-3">🤝</div>
-              <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>5,000+ 個新友誼</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <h3 className="font-bold text-lg mb-2" style={{ color: '#1d1d1f' }}>5,000+ 個新友誼</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#6e6e73' }}>
                 透過揪團，已經有 5,000 多位原本不認識的運動愛好者變成朋友。每週穩定揪團的球友，平均會多留 3 個真心的朋友。
               </p>
             </div>
-            <div className="bg-white/5 rounded-3xl p-6">
+            <div className="bg-[#f5f5f7] rounded-3xl p-6">
               <div className="text-4xl mb-3">🌸</div>
-              <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--text)' }}>女性友善揪團</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <h3 className="font-bold text-lg mb-2" style={{ color: '#1d1d1f' }}>女性友善揪團</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#6e6e73' }}>
                 我們有專屬的「女性友善揪團」篩選機制、主揪者身分驗證、活動後雙向評價，讓每位女性球友都能安心運動。
               </p>
             </div>
@@ -529,30 +529,30 @@ export default function HomePage() {
           11. FINAL CTA
           ============================================================ */}
       <section className="max-w-5xl mx-auto px-4 mb-12">
-        <div className="bg-gradient-to-br from-cyan-500/25 via-sky-600/15 to-teal-500/15 border border-cyan-500/30 rounded-3xl p-10 md:p-14 text-center shadow-2xl">
-          <h2 className="text-3xl md:text-4xl font-black mb-3 text-white">
+        <div className="bg-gradient-to-br from-cyan-500/25 via-sky-600/15 to-teal-500/15 border border-[#0071e3]/30 rounded-3xl p-10 md:p-14 text-center shadow-2xl">
+          <h2 className="text-3xl md:text-4xl font-black mb-3 text-[#1d1d1f]">
             準備好發起你的第一個揪團了嗎？ 🚀
           </h2>
-          <p className="text-white/90 text-base md:text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-[#1d1d1f]/90 text-base md:text-lg mb-8 max-w-xl mx-auto">
             設定地點、時間、人數，3 分鐘完成發團。<br />
             不用學、不用審核，今天就開始揪！
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/squads/new"
-              className="inline-flex items-center justify-center gap-2 bg-white text-cyan-300 hover:bg-white/10 px-8 py-4 rounded-2xl font-bold text-lg shadow-lg transition-all"
+              className="inline-flex items-center justify-center gap-2 bg-white text-[#0071e3] hover:bg-[#0071e3]/10 px-8 py-4 rounded-2xl font-bold text-lg shadow-lg transition-all"
             >
               🔥 免費發起揪團
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/squads"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 text-white border-2 border-white/30 hover:bg-white/20 px-8 py-4 rounded-2xl font-bold text-lg transition-all"
+              className="inline-flex items-center justify-center gap-2 bg-[#0071e3]/10 text-[#1d1d1f] border-2 border-white/30 hover:bg-[#f5f5f7]0 px-8 py-4 rounded-2xl font-bold text-lg transition-all"
             >
               先逛逛揪團
             </Link>
           </div>
-          <div className="mt-6 flex flex-wrap gap-4 justify-center text-white/90 text-sm">
+          <div className="mt-6 flex flex-wrap gap-4 justify-center text-[#1d1d1f]/90 text-sm">
             <span className="flex items-center gap-1.5"><Check className="w-4 h-4" /> 免費使用</span>
             <span className="flex items-center gap-1.5"><Check className="w-4 h-4" /> 不用審核</span>
             <span className="flex items-center gap-1.5"><Check className="w-4 h-4" /> 30 秒上手</span>

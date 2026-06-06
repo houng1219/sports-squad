@@ -18,15 +18,15 @@ interface ChipProps {
 }
 
 export function Chip({ label, emoji, active = false, onClick, size = 'md' }: ChipProps) {
-  const sizeClasses = size === 'sm' ? 'px-2.5 py-1 text-xs' : 'px-3 py-1.5 text-sm'
+  const sizeClasses = size === 'sm' ? 'px-3 py-1 text-[12px]' : 'px-3.5 py-1.5 text-[13px]'
   return (
     <button
       type="button"
       onClick={onClick}
       className={`inline-flex items-center gap-1 rounded-full border transition-all ${sizeClasses} ${
         active
-          ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-medium'
-          : 'bg-white/5 border-white/10 text-white/70 hover:border-white/30 hover:text-white/90'
+          ? 'bg-[#0071e3] border-[#0071e3] text-white font-medium'
+          : 'bg-white border-[#d2d2d7] text-[#1d1d1f] hover:border-[#0071e3] hover:text-[#0071e3]'
       }`}
     >
       {emoji && <span>{emoji}</span>}

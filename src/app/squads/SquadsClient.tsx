@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { zhTW } from 'date-fns/locale'
-import { MapPin, Clock, Users, Search, X, Filter, ChevronRight, Calendar } from 'lucide-react'
+import { MapPin, Clock, Users, Search, X, Filter, ChevronRight, Calendar, SlidersHorizontal } from 'lucide-react'
 import {
   SPORT_LABELS,
   SPORT_ICONS,
@@ -22,10 +22,10 @@ import { Chip, ChipGroup } from '@/components/Chip'
 export interface FilterState {
   cities: string[]
   sports: string[]
-  skillRange: [number, number]   // 0=不限, 1=初學, 2=中級, 3=高級
-  timeRange: [number, number]    // 0-23 小時
+  skillRange: [number, number]
+  timeRange: [number, number]
   freeOnly: boolean
-  hasSlots: boolean               // 還有缺
+  hasSlots: boolean
   search: string
 }
 
@@ -44,22 +44,19 @@ const SKILL_NAME_MAP: Record<number, string> = {
   3: '高級',
 }
 
-// 時段(0-23) - 只顯示 5 個關鍵節點,寬度才夠
-const HOUR_LABELS: string[] = [
-  '00', '', '', '', '', '',
-  '06', '', '', '', '', '',
-  '12', '', '', '', '', '',
-  '18', '', '', '', '', '23',
+const HOUR_LABELS: (string | null)[] = [
+  '00', null, null, null, null, null,
+  '06', null, null, null, null, null,
+  '12', null, null, null, null, null,
+  '18', null, null, null, null, '23',
 ]
 
-// 球類選項
 const SPORT_OPTIONS = (Object.keys(SPORT_LABELS) as SportType[]).map(k => ({
   value: k,
   label: SPORT_LABELS[k].replace(/^[^\s]+\s/, ''),
   emoji: SPORT_ICONS[k],
 }))
 
-// 設施 chip(給揪團的「場地屬性」,示範用)
 const FACILITY_OPTIONS = [
   { value: 'indoor', label: '室內', emoji: '🏠' },
   { value: 'shower', label: '淋浴', emoji: '🚿' },
@@ -74,7 +71,7 @@ interface SquadsClientProps {
 }
 
 // ============================================================
-// 主組件
+// 主組件 — Apple 經典配色
 // ============================================================
 export default function SquadsClient({ squads }: SquadsClientProps) {
   const [filters, setFilters] = useState<FilterState>({
@@ -90,22 +87,16 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
   const [selected, setSelected] = useState<SquadCard | null>(null)
   const [showMobileFilter, setShowMobileFilter] = useState(false)
 
-  // 篩選邏輯
   const filtered = useMemo(() => {
     return squads.filter(s => {
       if (filters.cities.length > 0 && !filters.cities.includes(s.city)) return false
       if (filters.sports.length > 0 && !filters.sports.includes(s.sport)) return false
-      // 程度
       const sv = SKILL_VALUE_MAP[s.skill_level] ?? 0
       if (sv < filters.skillRange[0] || sv > filters.skillRange[1]) return false
-      // 時段(從 scheduled_at 抓小時)
       const hour = new Date(s.scheduled_at).getHours()
       if (hour < filters.timeRange[0] || hour > filters.timeRange[1]) return false
-      // 免費
       if (filters.freeOnly && s.price_per_person > 0) return false
-      // 還有缺
       if (filters.hasSlots && s.participant_count >= s.max_participants) return false
-      // 搜尋
       if (filters.search) {
         const q = filters.search.toLowerCase()
         const hay = `${s.title} ${s.location_detail} ${s.description ?? ''}`.toLowerCase()
@@ -115,7 +106,6 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
     })
   }, [squads, filters])
 
-  // 計算 active filter 數
   const activeCount =
     filters.cities.length +
     filters.sports.length +
@@ -138,25 +128,24 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
   }
 
   return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
+    <div className="min-h-screen bg-white">
+      {/* Header — Apple 風格大量留白 */}
+      <div className="border-b border-[#d2d2d7]/60 bg-white">
+        <div className="max-w-7xl mx-auto px-6 py-8 flex items-end justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-white">揪團列表</h1>
-            <p className="text-white/50 text-sm mt-0.5">
-              找到適合你的運動夥伴 — {filtered.length} 個揪團
+            <h1 className="text-[40px] font-semibold tracking-tight text-[#1d1d1f] leading-tight">揪團</h1>
+            <p className="text-[#6e6e73] text-[15px] mt-1.5">
+              找到適合你的運動夥伴 — 共 {filtered.length} 個揪團
             </p>
           </div>
-          {/* Mobile filter toggle */}
           <button
             onClick={() => setShowMobileFilter(true)}
-            className="md:hidden inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80"
+            className="md:hidden inline-flex items-center gap-1.5 bg-[#f5f5f7] hover:bg-[#e8e8ed] rounded-full px-4 py-2 text-[14px] text-[#1d1d1f] font-normal"
           >
-            <Filter className="w-4 h-4" />
+            <SlidersHorizontal className="w-4 h-4" />
             篩選
             {activeCount > 0 && (
-              <span className="ml-1 bg-cyan-500 text-white text-[10px] font-bold px-1.5 rounded-full">
+              <span className="ml-1 bg-[#0071e3] text-white text-[10px] font-semibold px-1.5 rounded-full">
                 {activeCount}
               </span>
             )}
@@ -164,13 +153,13 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6">
-          {/* ============== 左側篩選器(PlayOne style) ============== */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8">
+          {/* ============== 左側篩選器 (Apple 風格) ============== */}
           <aside
             className={`
-              ${showMobileFilter ? 'fixed inset-0 z-50 bg-[var(--bg)] overflow-y-auto p-4' : 'hidden md:block'}
-              md:relative md:p-0 md:bg-transparent
+              ${showMobileFilter ? 'fixed inset-0 z-50 bg-white overflow-y-auto p-6' : 'hidden md:block'}
+              md:relative md:p-0
             `}
           >
             <FilterSidebar
@@ -184,28 +173,28 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
           {/* ============== 右側揪團列表 ============== */}
           <main>
             {/* Mobile search */}
-            <div className="md:hidden mb-3">
+            <div className="md:hidden mb-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
                 <input
                   type="text"
                   placeholder="搜尋揪團標題、地點..."
                   value={filters.search}
                   onChange={e => setFilters({ ...filters, search: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-2.5 text-sm text-white placeholder-white/40"
+                  className="w-full bg-[#f5f5f7] border border-transparent rounded-xl pl-10 pr-4 py-3 text-[14px] text-[#1d1d1f] placeholder-[#86868b] focus:bg-white focus:border-[#0071e3] focus:outline-none transition-all"
                 />
               </div>
             </div>
 
-            {/* Active filter chips */}
+            {/* Active filter chips - Apple 風格藍色 pill */}
             {activeCount > 0 && (
-              <div className="mb-4 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-white/50">已套用篩選:</span>
+              <div className="mb-5 flex flex-wrap items-center gap-2">
+                <span className="text-[13px] text-[#6e6e73]">已篩選:</span>
                 {filters.cities.map(c => (
                   <button
                     key={c}
                     onClick={() => setFilters({ ...filters, cities: filters.cities.filter(x => x !== c) })}
-                    className="inline-flex items-center gap-1 bg-cyan-500/20 text-cyan-300 text-xs px-2.5 py-1 rounded-full border border-cyan-500/30"
+                    className="inline-flex items-center gap-1 bg-[#0071e3]/10 text-[#0071e3] text-[13px] px-3 py-1 rounded-full font-normal hover:bg-[#0071e3]/20"
                   >
                     📍 {c}
                     <X className="w-3 h-3" />
@@ -215,7 +204,7 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
                   <button
                     key={sp}
                     onClick={() => setFilters({ ...filters, sports: filters.sports.filter(x => x !== sp) })}
-                    className="inline-flex items-center gap-1 bg-cyan-500/20 text-cyan-300 text-xs px-2.5 py-1 rounded-full border border-cyan-500/30"
+                    className="inline-flex items-center gap-1 bg-[#0071e3]/10 text-[#0071e3] text-[13px] px-3 py-1 rounded-full font-normal hover:bg-[#0071e3]/20"
                   >
                     {SPORT_ICONS[sp as SportType]} {SPORT_LABELS[sp as SportType].replace(/^[^\s]+\s/, '')}
                     <X className="w-3 h-3" />
@@ -224,7 +213,7 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
                 {(filters.skillRange[0] !== 0 || filters.skillRange[1] !== 3) && (
                   <button
                     onClick={() => setFilters({ ...filters, skillRange: [0, 3] })}
-                    className="inline-flex items-center gap-1 bg-cyan-500/20 text-cyan-300 text-xs px-2.5 py-1 rounded-full border border-cyan-500/30"
+                    className="inline-flex items-center gap-1 bg-[#0071e3]/10 text-[#0071e3] text-[13px] px-3 py-1 rounded-full font-normal"
                   >
                     💪 {SKILL_NAME_MAP[filters.skillRange[0]]}~{SKILL_NAME_MAP[filters.skillRange[1]]}
                     <X className="w-3 h-3" />
@@ -233,47 +222,38 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
                 {(filters.timeRange[0] !== 0 || filters.timeRange[1] !== 23) && (
                   <button
                     onClick={() => setFilters({ ...filters, timeRange: [0, 23] })}
-                    className="inline-flex items-center gap-1 bg-cyan-500/20 text-cyan-300 text-xs px-2.5 py-1 rounded-full border border-cyan-500/30"
+                    className="inline-flex items-center gap-1 bg-[#0071e3]/10 text-[#0071e3] text-[13px] px-3 py-1 rounded-full font-normal"
                   >
                     ⏰ {String(filters.timeRange[0]).padStart(2, '0')}:00 - {String(filters.timeRange[1]).padStart(2, '0')}:00
                     <X className="w-3 h-3" />
                   </button>
                 )}
                 {filters.freeOnly && (
-                  <button
-                    onClick={() => setFilters({ ...filters, freeOnly: false })}
-                    className="inline-flex items-center gap-1 bg-cyan-500/20 text-cyan-300 text-xs px-2.5 py-1 rounded-full border border-cyan-500/30"
-                  >
+                  <button onClick={() => setFilters({ ...filters, freeOnly: false })} className="inline-flex items-center gap-1 bg-[#0071e3]/10 text-[#0071e3] text-[13px] px-3 py-1 rounded-full font-normal">
                     💰 免費
                     <X className="w-3 h-3" />
                   </button>
                 )}
                 {filters.hasSlots && (
-                  <button
-                    onClick={() => setFilters({ ...filters, hasSlots: false })}
-                    className="inline-flex items-center gap-1 bg-cyan-500/20 text-cyan-300 text-xs px-2.5 py-1 rounded-full border border-cyan-500/30"
-                  >
+                  <button onClick={() => setFilters({ ...filters, hasSlots: false })} className="inline-flex items-center gap-1 bg-[#0071e3]/10 text-[#0071e3] text-[13px] px-3 py-1 rounded-full font-normal">
                     👥 還有名額
                     <X className="w-3 h-3" />
                   </button>
                 )}
-                <button
-                  onClick={reset}
-                  className="text-xs text-white/40 hover:text-white/70 underline ml-1"
-                >
+                <button onClick={reset} className="text-[13px] text-[#0071e3] hover:underline ml-1">
                   清除全部
                 </button>
               </div>
             )}
 
             {filtered.length === 0 ? (
-              <div className="text-center py-16 bg-white/5 rounded-2xl border border-white/10">
-                <Users className="w-12 h-12 text-white/20 mx-auto mb-4" />
-                <p className="text-white/60 font-medium mb-2">找不到符合條件的揪團</p>
-                <p className="text-white/40 text-sm mb-4">嘗試放寬篩選條件,或自己當主揪</p>
+              <div className="text-center py-20 bg-[#f5f5f7] rounded-2xl">
+                <Users className="w-12 h-12 text-[#d2d2d7] mx-auto mb-4" />
+                <p className="text-[#1d1d1f] font-semibold mb-2 text-[17px]">找不到符合條件的揪團</p>
+                <p className="text-[#6e6e73] text-[14px] mb-5">嘗試放寬篩選條件,或自己當主揪</p>
                 <Link
                   href="/squads/new"
-                  className="inline-flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-[#0071e3] hover:bg-[#0077ed] text-white px-5 py-2.5 rounded-full text-[14px] font-normal transition-colors"
                 >
                   發起揪團
                 </Link>
@@ -281,11 +261,7 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
             ) : (
               <div className="space-y-3">
                 {filtered.map(squad => (
-                  <SquadCardDense
-                    key={squad.id}
-                    squad={squad}
-                    onClick={() => setSelected(squad)}
-                  />
+                  <SquadCardApple key={squad.id} squad={squad} onClick={() => setSelected(squad)} />
                 ))}
               </div>
             )}
@@ -293,7 +269,7 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
         </div>
       </div>
 
-      {/* ============== 詳情 Modal ============== */}
+      {/* ============== 詳情 Modal (Apple 風格) ============== */}
       {selected && (
         <SquadDetailModal
           squad={selected}
@@ -310,7 +286,7 @@ export default function SquadsClient({ squads }: SquadsClientProps) {
 }
 
 // ============================================================
-// 左側篩選器
+// 左側篩選器 - Apple 風格
 // ============================================================
 function FilterSidebar({
   filters,
@@ -324,24 +300,24 @@ function FilterSidebar({
   onCloseMobile?: () => void
 }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-5 md:sticky md:top-24 space-y-5">
+    <div className="space-y-7">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-white font-semibold flex items-center gap-1.5">
+      <div className="flex items-center justify-between sticky top-16 bg-white/95 backdrop-blur-sm z-10 py-2 -mt-2">
+        <h2 className="text-[22px] font-semibold tracking-tight text-[#1d1d1f] flex items-center gap-1.5">
           <Filter className="w-4 h-4" />
-          篩選條件
+          篩選
         </h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <button
             onClick={onReset}
-            className="text-xs text-cyan-400 hover:text-cyan-300 underline"
+            className="text-[13px] text-[#0071e3] hover:underline"
           >
             清除
           </button>
           {onCloseMobile && (
             <button
               onClick={onCloseMobile}
-              className="md:hidden text-white/60 hover:text-white"
+              className="md:hidden text-[#6e6e73] hover:text-[#1d1d1f]"
             >
               <X className="w-5 h-5" />
             </button>
@@ -350,7 +326,7 @@ function FilterSidebar({
       </div>
 
       {/* 縣市 */}
-      <FilterSection title="縣市" icon="📍">
+      <FilterSection title="縣市">
         <ChipGroup
           options={TAIWAN_CITIES.slice(0, 8).map(c => ({ value: c, label: c }))}
           selected={filters.cities}
@@ -358,7 +334,7 @@ function FilterSidebar({
         />
         {TAIWAN_CITIES.length > 8 && (
           <details className="mt-2">
-            <summary className="text-xs text-cyan-400 cursor-pointer hover:text-cyan-300">
+            <summary className="text-[13px] text-[#0071e3] cursor-pointer hover:underline">
               顯示更多 ({TAIWAN_CITIES.length - 8})
             </summary>
             <div className="mt-2">
@@ -373,7 +349,7 @@ function FilterSidebar({
       </FilterSection>
 
       {/* 球類 */}
-      <FilterSection title="球類" icon="🏀">
+      <FilterSection title="球類">
         <ChipGroup
           options={SPORT_OPTIONS}
           selected={filters.sports}
@@ -381,8 +357,8 @@ function FilterSidebar({
         />
       </FilterSection>
 
-      {/* 程度(雙滑桿) */}
-      <FilterSection title="程度範圍" icon="💪">
+      {/* 程度 */}
+      <FilterSection title="程度範圍">
         <RangeSlider
           min={0}
           max={3}
@@ -392,8 +368,8 @@ function FilterSidebar({
         />
       </FilterSection>
 
-      {/* 時段(雙滑桿) */}
-      <FilterSection title="時段範圍" icon="⏰">
+      {/* 時段 */}
+      <FilterSection title="時段範圍">
         <RangeSlider
           min={0}
           max={23}
@@ -401,58 +377,58 @@ function FilterSidebar({
           onChange={v => setFilters({ ...filters, timeRange: v })}
           labels={HOUR_LABELS}
         />
-        <div className="flex justify-between mt-1.5 text-xs font-medium text-cyan-300">
-          <span>{String(filters.timeRange[0]).padStart(2, '0')}:00 起</span>
-          <span>至 {String(filters.timeRange[1]).padStart(2, '0')}:00</span>
+        <div className="flex justify-between mt-2 text-[13px] text-[#6e6e73]">
+          <span>{String(filters.timeRange[0]).padStart(2, '0')}:00</span>
+          <span>{String(filters.timeRange[1]).padStart(2, '0')}:00</span>
         </div>
       </FilterSection>
 
-      {/* 設施標籤 */}
-      <FilterSection title="場地設施" icon="🏠">
+      {/* 設施 */}
+      <FilterSection title="場地設施">
         <ChipGroup
           options={FACILITY_OPTIONS}
           selected={[]}
           onChange={() => {}}
           size="sm"
         />
-        <p className="text-[10px] text-white/30 mt-2">*設施資料以實際場地為準</p>
+        <p className="text-[11px] text-[#86868b] mt-2">*設施資料以實際場地為準</p>
       </FilterSection>
 
       {/* 快速選項 */}
-      <FilterSection title="其他" icon="⚡">
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 cursor-pointer text-sm text-white/80">
+      <FilterSection title="其他">
+        <div className="space-y-2.5">
+          <label className="flex items-center gap-2.5 cursor-pointer text-[14px] text-[#1d1d1f]">
             <input
               type="checkbox"
               checked={filters.freeOnly}
               onChange={e => setFilters({ ...filters, freeOnly: e.target.checked })}
-              className="rounded accent-cyan-500"
+              className="w-4 h-4 rounded accent-[#0071e3]"
             />
             <span>💰 免費揪團</span>
           </label>
-          <label className="flex items-center gap-2 cursor-pointer text-sm text-white/80">
+          <label className="flex items-center gap-2.5 cursor-pointer text-[14px] text-[#1d1d1f]">
             <input
               type="checkbox"
               checked={filters.hasSlots}
               onChange={e => setFilters({ ...filters, hasSlots: e.target.checked })}
-              className="rounded accent-cyan-500"
+              className="w-4 h-4 rounded accent-[#0071e3]"
             />
             <span>👥 還有名額</span>
           </label>
         </div>
       </FilterSection>
 
-      {/* 搜尋(桌機版) */}
+      {/* 搜尋 (桌機) */}
       <div className="hidden md:block">
-        <FilterSection title="關鍵字" icon="🔍">
+        <FilterSection title="關鍵字">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#86868b]" />
             <input
               type="text"
               placeholder="揪團標題、地點..."
               value={filters.search}
               onChange={e => setFilters({ ...filters, search: e.target.value })}
-              className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-white/40"
+              className="w-full bg-[#f5f5f7] border border-transparent rounded-lg pl-9 pr-3 py-2.5 text-[14px] text-[#1d1d1f] placeholder-[#86868b] focus:bg-white focus:border-[#0071e3] focus:outline-none transition-all"
             />
           </div>
         </FilterSection>
@@ -461,7 +437,7 @@ function FilterSidebar({
       {onCloseMobile && (
         <button
           onClick={onCloseMobile}
-          className="md:hidden w-full bg-cyan-500 hover:bg-cyan-600 text-white py-2.5 rounded-lg text-sm font-medium"
+          className="md:hidden w-full bg-[#0071e3] hover:bg-[#0077ed] text-white py-3 rounded-full text-[15px] font-normal"
         >
           套用篩選
         </button>
@@ -470,11 +446,10 @@ function FilterSidebar({
   )
 }
 
-function FilterSection({ title, icon, children }: { title: string; icon: string; children: React.ReactNode }) {
+function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-xs uppercase tracking-wider text-white/50 font-medium mb-2.5 flex items-center gap-1">
-        <span>{icon}</span>
+      <h3 className="text-[13px] uppercase tracking-wider text-[#6e6e73] font-semibold mb-3">
         {title}
       </h3>
       {children}
@@ -483,9 +458,9 @@ function FilterSection({ title, icon, children }: { title: string; icon: string;
 }
 
 // ============================================================
-// 揪團卡片(PlayOne 資訊密度版)
+// 揪團卡片 - Apple 風格
 // ============================================================
-function SquadCardDense({ squad, onClick }: { squad: SquadCard; onClick: () => void }) {
+function SquadCardApple({ squad, onClick }: { squad: SquadCard; onClick: () => void }) {
   const emoji = SPORT_ICONS[squad.sport as SportType] || '🏅'
   const sportLabel = SPORT_LABELS[squad.sport as SportType].replace(/^[^\s]+\s/, '')
   const date = new Date(squad.scheduled_at)
@@ -497,79 +472,73 @@ function SquadCardDense({ squad, onClick }: { squad: SquadCard; onClick: () => v
   return (
     <button
       onClick={onClick}
-      className="w-full text-left bg-white/5 hover:bg-white/[0.08] border border-white/10 hover:border-cyan-500/40 rounded-2xl overflow-hidden transition-all group"
+      className="w-full text-left bg-white hover:bg-[#fbfbfd] border border-[#d2d2d7]/60 hover:border-[#0071e3] rounded-2xl overflow-hidden transition-all group"
     >
-      <div className="flex">
-        {/* Left accent bar - colored by sport */}
-        <div className="w-1 bg-gradient-to-b from-cyan-400 via-sky-400 to-teal-400 flex-shrink-0" />
+      <div className="p-5">
+        {/* Row 1: sport + 庫存狀態 */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-1.5">
+            <span className="text-base">{emoji}</span>
+            <span className="text-[13px] font-medium text-[#6e6e73]">{sportLabel}</span>
+            {isFull && (
+              <span className="text-[11px] bg-[#ff3b30]/10 text-[#ff3b30] px-2 py-0.5 rounded-full font-medium">
+                已額滿
+              </span>
+            )}
+            {!isFull && slotsLeft <= 2 && (
+              <span className="text-[11px] bg-[#ff9500]/10 text-[#ff9500] px-2 py-0.5 rounded-full font-medium">
+                剩 {slotsLeft} 個
+              </span>
+            )}
+          </div>
+          <ChevronRight className="w-4 h-4 text-[#d2d2d7] group-hover:text-[#0071e3] group-hover:translate-x-0.5 transition-all" />
+        </div>
 
-        <div className="flex-1 p-4">
-          {/* Row 1: Sport + 庫存 */}
-          <div className="flex items-center justify-between mb-2">
+        {/* Row 2: 標題 */}
+        <h3 className="font-semibold text-[#1d1d1f] text-[19px] mb-3 leading-snug tracking-tight line-clamp-1">
+          {squad.title}
+        </h3>
+
+        {/* Row 3: 時間 + 地點 */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[14px] mb-3">
+          <span className="flex items-center gap-1.5 text-[#0071e3] font-medium">
+            <Clock className="w-3.5 h-3.5" />
+            {format(date, 'M/dd (EEE) HH:mm', { locale: zhTW })}
+            <span className="text-[#86868b] font-normal">· {squad.duration_minutes}分</span>
+          </span>
+          <span className="flex items-center gap-1.5 text-[#6e6e73]">
+            <MapPin className="w-3.5 h-3.5 text-[#86868b]" />
+            {squad.city} {squad.district}
+          </span>
+        </div>
+
+        {/* Row 4: 程度 + 價錢 + 庫存 */}
+        <div className="flex items-center justify-between gap-2 pt-3 border-t border-[#e8e8ed]">
+          <div className="flex items-center gap-2 flex-wrap">
+            <SkillBadge level={squad.skill_level} />
+            {isFree ? (
+              <span className="text-[14px] font-semibold text-[#00873e]">免費</span>
+            ) : (
+              <span className="text-[14px] font-semibold text-[#0071e3]">${squad.price_per_person}</span>
+            )}
+            <span className="text-[11px] text-[#86868b]">·</span>
+            <span className="text-[12px] text-[#86868b]">{squad.organizer?.full_name || '未知'}</span>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-[12px] text-[#6e6e73]">
+            <Users className="w-3.5 h-3.5" />
             <div className="flex items-center gap-1.5">
-              <span className="text-lg">{emoji}</span>
-              <span className="text-sm font-semibold text-white/70">{sportLabel}</span>
-              {isFull && (
-                <span className="text-[10px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-medium">
-                  已額滿
-                </span>
-              )}
-              {!isFull && slotsLeft <= 2 && (
-                <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full font-medium">
-                  剩 {slotsLeft} 個
-                </span>
-              )}
-            </div>
-            <ChevronRight className="w-4 h-4 text-white/30 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
-          </div>
-
-          {/* Row 2: 揪團標題 */}
-          <h3 className="font-semibold text-white text-base mb-2.5 line-clamp-1">
-            {squad.title}
-          </h3>
-
-          {/* Row 3: 時間 + 地點(最顯眼資訊) */}
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm mb-2.5">
-            <span className="flex items-center gap-1 text-cyan-300 font-medium">
-              <Clock className="w-4 h-4" />
-              {format(date, 'M/dd (EEE)', { locale: zhTW })} {format(date, 'HH:mm')}
-              <span className="text-white/40 font-normal">· {squad.duration_minutes}分</span>
-            </span>
-            <span className="flex items-center gap-1 text-white/70">
-              <MapPin className="w-4 h-4 text-white/50" />
-              {squad.city} {squad.district}
-            </span>
-          </div>
-
-          {/* Row 4: 程度 + 價錢 + 主辦 */}
-          <div className="flex items-center justify-between gap-2 mt-3 pt-3 border-t border-white/5">
-            <div className="flex items-center gap-2 flex-wrap">
-              <SkillBadge level={squad.skill_level} />
-              {isFree ? (
-                <span className="text-sm font-bold text-emerald-400">免費</span>
-              ) : (
-                <span className="text-sm font-bold text-cyan-300">${squad.price_per_person}</span>
-              )}
-              <span className="text-[10px] text-white/30">·</span>
-              <span className="text-[11px] text-white/40">{squad.location_detail.split(' ')[0]}</span>
-            </div>
-
-            {/* 庫存 bar + 數字 */}
-            <div className="flex items-center gap-1.5 text-xs text-white/60">
-              <Users className="w-3.5 h-3.5" />
-              <div className="flex items-center gap-1">
-                <div className="w-12 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full transition-all ${
-                      slotsRatio >= 1 ? 'bg-red-400' : slotsRatio >= 0.7 ? 'bg-amber-400' : 'bg-emerald-400'
-                    }`}
-                    style={{ width: `${Math.min(100, slotsRatio * 100)}%` }}
-                  />
-                </div>
-                <span className="font-medium text-white/80">
-                  {squad.participant_count}/{squad.max_participants}
-                </span>
+              <div className="w-12 h-1.5 bg-[#e8e8ed] rounded-full overflow-hidden">
+                <div
+                  className={`h-full transition-all ${
+                    slotsRatio >= 1 ? 'bg-[#ff3b30]' : slotsRatio >= 0.7 ? 'bg-[#ff9500]' : 'bg-[#00873e]'
+                  }`}
+                  style={{ width: `${Math.min(100, slotsRatio * 100)}%` }}
+                />
               </div>
+              <span className="font-medium text-[#1d1d1f]">
+                {squad.participant_count}/{squad.max_participants}
+              </span>
             </div>
           </div>
         </div>
@@ -580,10 +549,10 @@ function SquadCardDense({ squad, onClick }: { squad: SquadCard; onClick: () => v
 
 function SkillBadge({ level }: { level: string }) {
   const map: Record<string, { bg: string; text: string; label: string }> = {
-    all: { bg: 'bg-white/10', text: 'text-white/70', label: '👥 不限' },
-    beginner: { bg: 'bg-emerald-500/20', text: 'text-emerald-300', label: '🌱 初學' },
-    intermediate: { bg: 'bg-sky-500/20', text: 'text-sky-300', label: '⭐ 中級' },
-    advanced: { bg: 'bg-rose-500/20', text: 'text-rose-300', label: '🔥 高級' },
+    all: { bg: 'bg-[#f5f5f7]', text: 'text-[#6e6e73]', label: '👥 不限' },
+    beginner: { bg: 'bg-[#00873e]/10', text: 'text-[#00873e]', label: '🌱 初學' },
+    intermediate: { bg: 'bg-[#0071e3]/10', text: 'text-[#0071e3]', label: '⭐ 中級' },
+    advanced: { bg: 'bg-[#ff3b30]/10', text: 'text-[#ff3b30]', label: '🔥 高級' },
   }
   const m = map[level] || map.all
   return (
@@ -594,7 +563,7 @@ function SkillBadge({ level }: { level: string }) {
 }
 
 // ============================================================
-// 詳情 Modal(PlayOne 風格 + 交叉推廣)
+// 詳情 Modal - Apple 風格
 // ============================================================
 function SquadDetailModal({
   squad,
@@ -608,33 +577,36 @@ function SquadDetailModal({
   const date = new Date(squad.scheduled_at)
   const isFree = squad.price_per_person === 0
   const isFull = squad.participant_count >= squad.max_participants
+  const slotsRatio = squad.participant_count / squad.max_participants
+  const endTime = new Date(date.getTime() + squad.duration_minutes * 60000)
 
-  // 同場地 vs 同球類
   const sameLocation = relatedSquads.filter(s => s.city === squad.city && s.district === squad.district)
   const sameSport = relatedSquads.filter(s => s.sport === squad.sport && s.id !== squad.id).slice(0, 3)
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/70 backdrop-blur-sm p-0 md:p-4"
+      className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/40 backdrop-blur-md p-0 md:p-6"
       onClick={onClose}
     >
       <div
-        className="w-full md:max-w-3xl max-h-[90vh] bg-[var(--bg-card)] border border-white/10 rounded-t-2xl md:rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+        className="w-full md:max-w-3xl max-h-[92vh] bg-white md:rounded-2xl rounded-t-2xl shadow-2xl flex flex-col overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="relative p-5 border-b border-white/10">
+        <div className="relative p-6 md:p-8 border-b border-[#e8e8ed]">
           <div className="flex items-start gap-3">
             <div className="text-3xl">{SPORT_ICONS[squad.sport as SportType] || '🏅'}</div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-xl font-bold text-white mb-1">{squad.title}</h2>
-              <p className="text-sm text-white/50">
+              <h2 className="text-[24px] md:text-[28px] font-semibold tracking-tight text-[#1d1d1f] leading-tight">
+                {squad.title}
+              </h2>
+              <p className="text-[14px] text-[#6e6e73] mt-1">
                 {SPORT_LABELS[squad.sport as SportType].replace(/^[^\s]+\s/, '')} · 主辦 {squad.organizer?.full_name || '未知'}
               </p>
             </div>
             <button
               onClick={onClose}
-              className="text-white/40 hover:text-white p-1"
+              className="text-[#86868b] hover:text-[#1d1d1f] p-1"
               aria-label="關閉"
             >
               <X className="w-5 h-5" />
@@ -643,15 +615,14 @@ function SquadDetailModal({
         </div>
 
         {/* Modal Body - scrollable */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-5">
-          {/* 主要資訊 grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+          {/* 主要資訊 grid - Apple 風格淺灰卡片 */}
+          <div className="grid grid-cols-2 gap-3">
             <InfoBlock icon="📅" label="日期">
-              {format(date, 'M/dd (EEE)', { locale: zhTW })}
+              {format(date, 'M月dd日 (EEE)', { locale: zhTW })}
             </InfoBlock>
             <InfoBlock icon="⏰" label="時間">
-              {format(date, 'HH:mm')} -{' '}
-              {String(new Date(date.getTime() + squad.duration_minutes * 60000).getHours()).padStart(2, '0')}:00
+              {format(date, 'HH:mm')} - {format(endTime, 'HH:mm')}
             </InfoBlock>
             <InfoBlock icon="📍" label="地點">
               {squad.city} {squad.district}
@@ -662,15 +633,15 @@ function SquadDetailModal({
           </div>
 
           {/* 場地詳情 */}
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-1">
-              <MapPin className="w-4 h-4 text-cyan-400" />
+          <div className="bg-[#f5f5f7] rounded-xl p-4">
+            <h3 className="text-[15px] font-semibold text-[#1d1d1f] mb-2 flex items-center gap-1.5">
+              <MapPin className="w-4 h-4 text-[#0071e3]" />
               場地資訊
             </h3>
-            <p className="text-sm text-white/70">{squad.location_detail}</p>
+            <p className="text-[14px] text-[#1d1d1f]">{squad.location_detail}</p>
             {squad.equipment && (
-              <p className="text-xs text-white/50 mt-2">
-                <span className="text-cyan-400">器材:</span> {squad.equipment}
+              <p className="text-[13px] text-[#6e6e73] mt-2">
+                <span className="text-[#0071e3] font-medium">器材:</span> {squad.equipment}
               </p>
             )}
           </div>
@@ -678,43 +649,44 @@ function SquadDetailModal({
           {/* 描述 */}
           {squad.description && (
             <div>
-              <h3 className="text-sm font-semibold text-white mb-2">揪團說明</h3>
-              <p className="text-sm text-white/70 leading-relaxed whitespace-pre-line">{squad.description}</p>
+              <h3 className="text-[15px] font-semibold text-[#1d1d1f] mb-2">揪團說明</h3>
+              <p className="text-[14px] text-[#1d1d1f] leading-relaxed whitespace-pre-line">{squad.description}</p>
             </div>
           )}
 
           {/* 注意事項 */}
           {squad.notes && (
-            <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
-              <h3 className="text-sm font-semibold text-amber-300 mb-1">⚠️ 注意事項</h3>
-              <p className="text-sm text-white/70 leading-relaxed">{squad.notes}</p>
+            <div className="bg-[#fff8e1] border border-[#ff9500]/20 rounded-xl p-4">
+              <h3 className="text-[15px] font-semibold text-[#ff9500] mb-1.5">⚠️ 注意事項</h3>
+              <p className="text-[14px] text-[#1d1d1f] leading-relaxed">{squad.notes}</p>
             </div>
           )}
 
           {/* 參加者 + 報名狀態 */}
-          <div className="flex items-center justify-between bg-white/5 border border-white/10 rounded-xl p-4">
+          <div className="flex items-center justify-between bg-[#f5f5f7] rounded-xl p-4">
             <div>
-              <p className="text-xs text-white/50 mb-1">目前參加人數</p>
-              <p className="text-lg font-bold text-white">
-                {squad.participant_count} <span className="text-white/40 text-sm">/ {squad.max_participants}</span>
+              <p className="text-[12px] text-[#6e6e73] mb-1">目前參加人數</p>
+              <p className="text-[22px] font-semibold text-[#1d1d1f]">
+                {squad.participant_count}
+                <span className="text-[15px] text-[#86868b] font-normal"> / {squad.max_participants}</span>
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xs text-white/50 mb-1">費用</p>
-              <p className={`text-lg font-bold ${isFree ? 'text-emerald-400' : 'text-cyan-300'}`}>
+              <p className="text-[12px] text-[#6e6e73] mb-1">費用</p>
+              <p className={`text-[22px] font-semibold ${isFree ? 'text-[#00873e]' : 'text-[#0071e3]'}`}>
                 {isFree ? '免費' : `$${squad.price_per_person}`}
               </p>
             </div>
           </div>
 
-          {/* 交叉推廣:同場地 / 同球類 */}
+          {/* 交叉推廣 */}
           {(sameLocation.length > 0 || sameSport.length > 0) && (
             <div>
-              <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-1">
-                <Calendar className="w-4 h-4 text-cyan-400" />
+              <h3 className="text-[15px] font-semibold text-[#1d1d1f] mb-3 flex items-center gap-1.5">
+                <Calendar className="w-4 h-4 text-[#0071e3]" />
                 你可能也會喜歡
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {sameLocation.slice(0, 2).map(s => (
                   <RelatedCard key={`loc-${s.id}`} squad={s} reason="同場地" />
                 ))}
@@ -727,18 +699,18 @@ function SquadDetailModal({
         </div>
 
         {/* Modal Footer - 報名 CTA */}
-        <div className="p-4 border-t border-white/10 bg-white/5 flex items-center gap-3">
+        <div className="p-5 md:p-6 border-t border-[#e8e8ed] bg-white flex items-center gap-3">
           <Link
             href={`/squads/${squad.id}`}
-            className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-2.5 rounded-lg text-sm font-medium text-center transition-colors"
+            className="flex-1 bg-[#f5f5f7] hover:bg-[#e8e8ed] text-[#0071e3] py-3 rounded-full text-[15px] font-normal text-center transition-colors"
           >
             查看完整頁
           </Link>
           <button
             disabled={isFull}
-            className="flex-[2] bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 disabled:from-white/10 disabled:to-white/10 disabled:text-white/30 text-white py-2.5 rounded-lg text-sm font-bold transition-all disabled:cursor-not-allowed"
+            className="flex-[2] bg-[#0071e3] hover:bg-[#0077ed] active:bg-[#006edb] disabled:bg-[#d2d2d7] disabled:text-[#86868b] text-white py-3 rounded-full text-[15px] font-normal transition-colors disabled:cursor-not-allowed"
           >
-            {isFull ? '已額滿' : isFree ? '免費報名 →' : `$${squad.price_per_person} 報名 →`}
+            {isFull ? '已額滿' : isFree ? '免費報名' : `$${squad.price_per_person} 報名`}
           </button>
         </div>
       </div>
@@ -748,12 +720,12 @@ function SquadDetailModal({
 
 function InfoBlock({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-      <p className="text-[10px] text-white/40 mb-1 flex items-center gap-1">
+    <div className="bg-[#f5f5f7] rounded-xl p-3.5">
+      <p className="text-[11px] text-[#6e6e73] mb-1 flex items-center gap-1 uppercase tracking-wider">
         <span>{icon}</span>
         {label}
       </p>
-      <p className="text-sm font-semibold text-white">{children}</p>
+      <p className="text-[14px] font-semibold text-[#1d1d1f]">{children}</p>
     </div>
   )
 }
@@ -761,17 +733,17 @@ function InfoBlock({ icon, label, children }: { icon: string; label: string; chi
 function RelatedCard({ squad, reason }: { squad: SquadCard; reason: string }) {
   const date = new Date(squad.scheduled_at)
   return (
-    <div className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 cursor-pointer transition-colors">
+    <div className="bg-white border border-[#e8e8ed] hover:border-[#0071e3] rounded-xl p-3 cursor-pointer transition-colors">
       <div className="flex items-center justify-between mb-1.5">
-        <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full">
+        <span className="text-[10px] bg-[#f5f5f7] text-[#6e6e73] px-2 py-0.5 rounded-full">
           {reason}
         </span>
-        <span className="text-[10px] text-white/40">
+        <span className="text-[10px] text-[#86868b]">
           {format(date, 'M/dd HH:mm')}
         </span>
       </div>
-      <h4 className="text-sm font-semibold text-white line-clamp-1 mb-0.5">{squad.title}</h4>
-      <p className="text-[11px] text-white/50 flex items-center gap-1">
+      <h4 className="text-[14px] font-semibold text-[#1d1d1f] line-clamp-1 mb-0.5">{squad.title}</h4>
+      <p className="text-[12px] text-[#6e6e73] flex items-center gap-1">
         <MapPin className="w-3 h-3" />
         {squad.city} {squad.district} · {squad.participant_count}/{squad.max_participants}
       </p>

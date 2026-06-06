@@ -32,20 +32,20 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <div className="relative overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/15 via-sky-600/10 to-teal-500/10" />
+      <div className="relative overflow-hidden border-b border-[#d2d2d7]/60">
+        <div className="absolute inset-0 bg-[#fbfbfd]" />
         <div className="relative max-w-4xl mx-auto px-4 py-10">
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-sky-500/20 border border-cyan-500/30 rounded-full flex items-center justify-center text-3xl">
-              <User className="w-9 h-9 text-cyan-300" />
+            <div className="w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-sky-500/20 border border-[#0071e3]/30 rounded-full flex items-center justify-center text-3xl">
+              <User className="w-9 h-9 text-[#0071e3]" />
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-white">{form.full_name || '未設定'}</h1>
-              <p className="text-white/50 text-sm flex items-center gap-1.5 mt-1">
+              <h1 className="text-2xl font-bold text-[#1d1d1f]">{form.full_name || '未設定'}</h1>
+              <p className="text-[#6e6e73] text-sm flex items-center gap-1.5 mt-1">
                 <Mail className="w-3.5 h-3.5" />
                 {form.email}
               </p>
-              <p className="text-white/50 text-sm flex items-center gap-1.5 mt-0.5">
+              <p className="text-[#6e6e73] text-sm flex items-center gap-1.5 mt-0.5">
                 <MapPin className="w-3.5 h-3.5" />
                 {form.city || '未設定城市'} {form.district}
               </p>
@@ -53,7 +53,7 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
             {!editing ? (
               <button
                 onClick={() => setEditing(true)}
-                className="flex items-center gap-1.5 bg-cyan-500/10 hover:bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 px-4 py-2 rounded-xl text-sm font-medium transition-colors"
+                className="flex items-center gap-1.5 bg-[#0071e3]/10 hover:bg-[#0071e3]/10 border border-[#0071e3]/30 text-[#0071e3] px-4 py-2 rounded-xl text-sm font-medium transition-colors"
               >
                 <Edit3 className="w-4 h-4" />
                 編輯
@@ -62,7 +62,7 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-white px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-lg shadow-cyan-500/20"
+                className="flex items-center gap-1.5 bg-[#0071e3] hover:from-cyan-400 hover:to-sky-400 text-[#1d1d1f] px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-sm"
               >
                 <Check className="w-4 h-4" />
                 {saving ? '儲存中...' : '完成'}
@@ -74,9 +74,9 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
 
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-4">
         {/* Bio */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-          <h2 className="font-semibold text-white mb-3 flex items-center gap-1.5">
-            <User className="w-4 h-4 text-cyan-400" />
+        <div className="bg-[#f5f5f7] border border-[#d2d2d7]/60 rounded-2xl p-5">
+          <h2 className="font-semibold text-[#1d1d1f] mb-3 flex items-center gap-1.5">
+            <User className="w-4 h-4 text-[#0071e3]" />
             自我介紹
           </h2>
           {editing ? (
@@ -84,20 +84,20 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
               value={form.bio || ''}
               onChange={e => setForm(prev => ({ ...prev, bio: e.target.value }))}
               rows={3}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent resize-none transition-all"
+              className="w-full bg-[#f5f5f7] border border-[#d2d2d7]/60 rounded-xl px-4 py-3 text-sm text-[#1d1d1f] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent resize-none transition-all"
             />
           ) : (
-            <p className="text-white/70 text-sm leading-relaxed">
-              {form.bio || <span className="text-white/30">還沒填寫自我介紹</span>}
+            <p className="text-[#1d1d1f] text-sm leading-relaxed">
+              {form.bio || <span className="text-[#86868b]">還沒填寫自我介紹</span>}
             </p>
           )}
         </div>
 
         {/* Preferred Sports */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-          <h2 className="font-semibold text-white mb-3 flex items-center gap-1.5">
-            <Activity className="w-4 h-4 text-cyan-400" />
-            喜歡的球類 <span className="text-white/30 text-xs font-normal">({form.preferred_sports.length} 項)</span>
+        <div className="bg-[#f5f5f7] border border-[#d2d2d7]/60 rounded-2xl p-5">
+          <h2 className="font-semibold text-[#1d1d1f] mb-3 flex items-center gap-1.5">
+            <Activity className="w-4 h-4 text-[#0071e3]" />
+            喜歡的球類 <span className="text-[#86868b] text-xs font-normal">({form.preferred_sports.length} 項)</span>
           </h2>
           <div className="flex flex-wrap gap-2">
             {SPORTS.map(sport => {
@@ -111,8 +111,8 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
                   disabled={!editing}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium border transition-all ${
                     active
-                      ? 'border-cyan-400 bg-cyan-500/15 text-cyan-300'
-                      : 'border-white/10 bg-white/[0.02] text-white/40'
+                      ? 'border-cyan-400 bg-[#0071e3]/10 text-[#0071e3]'
+                      : 'border-[#d2d2d7]/60 bg-white/[0.02] text-[#86868b]'
                   } ${editing ? 'cursor-pointer hover:border-white/30' : 'cursor-default'}`}
                 >
                   <span>{emoji}</span>
@@ -124,9 +124,9 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
         </div>
 
         {/* Skill Level */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-          <h2 className="font-semibold text-white mb-3 flex items-center gap-1.5">
-            <Target className="w-4 h-4 text-cyan-400" />
+        <div className="bg-[#f5f5f7] border border-[#d2d2d7]/60 rounded-2xl p-5">
+          <h2 className="font-semibold text-[#1d1d1f] mb-3 flex items-center gap-1.5">
+            <Target className="w-4 h-4 text-[#0071e3]" />
             技術程度
           </h2>
           <div className="grid grid-cols-4 gap-2">
@@ -137,8 +137,8 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
                 disabled={!editing}
                 className={`py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
                   form.skill_level === level
-                    ? 'border-cyan-400 bg-cyan-500/10 text-cyan-300'
-                    : 'border-white/10 bg-white/[0.02] text-white/40'
+                    ? 'border-cyan-400 bg-[#0071e3]/10 text-[#0071e3]'
+                    : 'border-[#d2d2d7]/60 bg-white/[0.02] text-[#86868b]'
                 } ${editing ? 'cursor-pointer hover:border-white/30' : 'cursor-default'}`}
               >
                 {SKILL_LABELS[level]}
@@ -148,32 +148,32 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
         </div>
 
         {/* Contact */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-          <h2 className="font-semibold text-white mb-3 flex items-center gap-1.5">
-            <Phone className="w-4 h-4 text-cyan-400" />
+        <div className="bg-[#f5f5f7] border border-[#d2d2d7]/60 rounded-2xl p-5">
+          <h2 className="font-semibold text-[#1d1d1f] mb-3 flex items-center gap-1.5">
+            <Phone className="w-4 h-4 text-[#0071e3]" />
             聯絡方式
           </h2>
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm text-white/50">📱 電話</span>
+              <span className="text-sm text-[#6e6e73]">📱 電話</span>
               {editing ? (
                 <input
                   type="tel"
                   value={form.phone || ''}
                   onChange={e => setForm(prev => ({ ...prev, phone: e.target.value }))}
-                  className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white text-right focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="bg-[#f5f5f7] border border-[#d2d2d7]/60 rounded-lg px-3 py-1.5 text-sm text-[#1d1d1f] text-right focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="0912345678"
                 />
               ) : (
-                <span className="text-sm font-medium text-white">{form.phone || '未填寫'}</span>
+                <span className="text-sm font-medium text-[#1d1d1f]">{form.phone || '未填寫'}</span>
               )}
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-white/50">📧 Email</span>
-              <span className="text-sm font-medium text-white">{form.email}</span>
+              <span className="text-sm text-[#6e6e73]">📧 Email</span>
+              <span className="text-sm font-medium text-[#1d1d1f]">{form.email}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-white/50">📍 所在地</span>
+              <span className="text-sm text-[#6e6e73]">📍 所在地</span>
               {editing ? (
                 <input
                   type="text"
@@ -182,38 +182,38 @@ export default function ProfilePage({ profile }: { profile: Profile }) {
                     const parts = e.target.value.trim().split(' ')
                     setForm(prev => ({ ...prev, city: parts[0] || '', district: parts.slice(1).join(' ') }))
                   }}
-                  className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white text-right focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="bg-[#f5f5f7] border border-[#d2d2d7]/60 rounded-lg px-3 py-1.5 text-sm text-[#1d1d1f] text-right focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 />
               ) : (
-                <span className="text-sm font-medium text-white">{form.city} {form.district}</span>
+                <span className="text-sm font-medium text-[#1d1d1f]">{form.city} {form.district}</span>
               )}
             </div>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-          <h2 className="font-semibold text-white mb-4">我的揪團統計</h2>
+        <div className="bg-[#f5f5f7] border border-[#d2d2d7]/60 rounded-2xl p-5">
+          <h2 className="font-semibold text-[#1d1d1f] mb-4">我的揪團統計</h2>
           <div className="grid grid-cols-3 gap-3">
-            <div className="text-center p-4 bg-cyan-500/10 border border-cyan-500/20 rounded-xl">
-              <div className="text-2xl font-bold text-cyan-300">3</div>
-              <div className="text-xs text-white/50 mt-1">已參加</div>
+            <div className="text-center p-4 bg-[#0071e3]/10 border border-[#0071e3]/20 rounded-xl">
+              <div className="text-2xl font-bold text-[#0071e3]">3</div>
+              <div className="text-xs text-[#6e6e73] mt-1">已參加</div>
             </div>
-            <div className="text-center p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
-              <div className="text-2xl font-bold text-emerald-300">1</div>
-              <div className="text-xs text-white/50 mt-1">發起</div>
+            <div className="text-center p-4 bg-[#00873e]/10 border border-emerald-500/20 rounded-xl">
+              <div className="text-2xl font-bold text-[#00873e]">1</div>
+              <div className="text-xs text-[#6e6e73] mt-1">發起</div>
             </div>
             <div className="text-center p-4 bg-sky-500/10 border border-sky-500/20 rounded-xl">
               <div className="text-2xl font-bold text-sky-300">100%</div>
-              <div className="text-xs text-white/50 mt-1">出席率</div>
+              <div className="text-xs text-[#6e6e73] mt-1">出席率</div>
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-sm text-white/50">
+          <div className="mt-4 pt-4 border-t border-[#d2d2d7]/60 flex items-center justify-between text-sm text-[#6e6e73]">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5" />
               加入時間
             </span>
-            <span className="text-white/80">{format(new Date(profile.created_at), 'yyyy年 M月 d日')}</span>
+            <span className="text-[#1d1d1f]">{format(new Date(profile.created_at), 'yyyy年 M月 d日')}</span>
           </div>
         </div>
       </div>

@@ -91,7 +91,7 @@ export default function RangeSlider({
       {/* Track */}
       <div
         ref={trackRef}
-        className="relative h-2 bg-white/10 rounded-full cursor-pointer"
+        className="relative h-1 bg-[#e8e8ed] rounded-full cursor-pointer"
         onClick={(e) => {
           if (!trackRef.current) return
           const rect = trackRef.current.getBoundingClientRect()
@@ -114,13 +114,13 @@ export default function RangeSlider({
       >
         {/* Selected range */}
         <div
-          className="absolute h-full bg-gradient-to-r from-cyan-400 to-sky-400 rounded-full"
+          className="absolute h-full bg-[#0071e3] rounded-full"
           style={{ left: `${leftPct}%`, width: `${rightPct - leftPct}%` }}
         />
 
         {/* Min handle */}
         <div
-          className="absolute w-5 h-5 -top-1.5 -ml-2.5 bg-white border-2 border-cyan-400 rounded-full cursor-grab shadow-md active:cursor-grabbing hover:scale-110 transition-transform"
+          className="absolute w-5 h-5 -top-2 -ml-2.5 bg-white border-2 border-[#0071e3] rounded-full cursor-grab shadow-md active:cursor-grabbing hover:scale-110 transition-transform"
           style={{ left: `${leftPct}%` }}
           onMouseDown={(e) => {
             e.stopPropagation()
@@ -138,7 +138,7 @@ export default function RangeSlider({
 
         {/* Max handle */}
         <div
-          className="absolute w-5 h-5 -top-1.5 -ml-2.5 bg-white border-2 border-cyan-400 rounded-full cursor-grab shadow-md active:cursor-grabbing hover:scale-110 transition-transform"
+          className="absolute w-5 h-5 -top-2 -ml-2.5 bg-white border-2 border-[#0071e3] rounded-full cursor-grab shadow-md active:cursor-grabbing hover:scale-110 transition-transform"
           style={{ left: `${rightPct}%` }}
           onMouseDown={(e) => {
             e.stopPropagation()
@@ -159,15 +159,15 @@ export default function RangeSlider({
       <div className="flex justify-between mt-2 px-1">
         {ticks.map((label, i) => {
           if (!label) {
-            return <span key={i} className="w-0" />  // 隱藏空白刻度
+            return <span key={i} className="w-0" />
           }
           const tickVal = min + i
           const isActive = tickVal >= localVal[0] && tickVal <= localVal[1]
           return (
             <span
               key={i}
-              className={`text-[9px] sm:text-[10px] transition-colors whitespace-nowrap ${
-                isActive ? 'text-cyan-400 font-medium' : 'text-white/40'
+              className={`text-[10px] sm:text-[11px] transition-colors whitespace-nowrap ${
+                isActive ? 'text-[#0071e3] font-medium' : 'text-[#86868b]'
               }`}
             >
               {label}
